@@ -9,17 +9,19 @@
         name: "Map",
         props:{
           option:Object,
+          map:Object,
         },
          mounted:function(){
-
+          this.init()
          },
          methods:{
            init:function () {
-             var url ="http://support.supermap.com.cn:8090/iserver/services/map-world/rest/maps/World";
              // 初始化地图信息
-             var map = L.map('map', );
+             var map = L.map(this.$el, this.map.option);
              // 添加图层
-             L.supermap.tiledMapLayer(url, {noWrap: true}).addTo(map);
+             map.removeControl(L.control.zoom());
+             L.supermap.tiledMapLayer(this.map.url, {noWrap: true}).addTo(map);
+
            }
          }
     }

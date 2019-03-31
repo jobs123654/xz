@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.root">
      <Head :class="$style.item" :nav="nav"></Head>
-     <Map :class="$style.item"></Map>
+     <Map :class="$style.item" :map="map"></Map>
      <SecondMenu :class="$style.SecondMenu"></SecondMenu>
   </div>
 </template>
@@ -21,6 +21,7 @@
         data:function () {
          return{
            nav:config.resourceMenu,SecondMenu,
+           map:config.map
          }
         },
     }
@@ -37,12 +38,14 @@
    .item:nth-child(2){
      width: 100%;
      height: $height;
+     z-index: 0;
+     /*pointer-events: none;*/
    }
    .SecondMenu{
      position: absolute;
-     z-index: 9;
-     left: 1%;
-     top: 13%;
+     z-index: 999;
+     left: 0.6%;
+     top: 18%;
    }
  }
 </style>

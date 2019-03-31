@@ -4,14 +4,15 @@ export default {
   //地图配置
   map:{
     option:{
-      crs: L.CRS.NonEarthCRS({
-        bounds: L.bounds([48.4, -7668.25],[8958.85, -55.58]),
-        origin: L.point(48.4,-55.58)
+      crs:L.Proj.CRS("EPSG:4326", {
+        origin: [114.59, 42.31],
+        scaleDenominators: [100000, 50000, 25000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50, 20, 1]
       }),
-       center: [-4500, 4000],
-       maxZoom: 18,
-       zoom: 1
-    }
+       center: [39.79, 116.85],
+       maxZoom: 5,
+       zoom: 0,
+    },
+    url:"http://support.supermap.com.cn:8090/iserver/services/map-jingjin/rest/maps/京津地区地图",
   },
   //导航菜单
   resourceMenu:[
