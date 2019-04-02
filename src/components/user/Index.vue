@@ -1,8 +1,10 @@
 <template>
   <div :class="$style.root">
-     <Head :class="$style.item" :nav="nav"></Head>
-     <Map :class="$style.item" :map="map"></Map>
+     <Head :class="$style.item" :nav="nav" ></Head>
+     <Map :class="$style.item" :option="map" ref="map"></Map>
      <SecondMenu :class="$style.SecondMenu"></SecondMenu>
+    <MapTool :class="$style.maptool"  @control="control"></MapTool>
+    <Center :class="$style.center"></Center>
   </div>
 </template>
 
@@ -11,12 +13,15 @@
    import Head from '../part/Head'
    import Map from '../map/Map'
    import SecondMenu from '../part/SecondMenu'
+   import MapTool from '../toolbar/MapTool'
+   import Center from '../user/Center'
     export default {
         name: "Index",
         components:{
           SecondMenu,
           Head,
           Map,
+          MapTool,Center,
         },
         data:function () {
          return{
@@ -24,6 +29,24 @@
            map:config.map
          }
         },
+        mounted() {
+
+        },
+      methods:{
+          control(i){
+            switch (Number.parseInt(i)) {
+              case 0:
+                this.$refs.map.addScale()
+                break;
+              case 1:
+                this.$refs.map.addMinimap();
+                break;
+              case 2:
+                this.$refs.map.addPan();
+                break;
+            }
+          }
+      }
     }
 </script>
 
@@ -46,6 +69,20 @@
      z-index: 999;
      left: 0.6%;
      top: 18%;
+   }
+   .maptool{
+     position: absolute;
+     z-index: 999;
+     right: 0.6%;
+     top: 13%;
+   }
+   .center{
+     width: 40%;
+     height: 40%;
+     position: absolute;
+     z-index: 999;
+     left: 30%;
+     top: 33%;
    }
  }
 </style>
