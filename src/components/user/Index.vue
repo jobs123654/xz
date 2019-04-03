@@ -3,8 +3,8 @@
      <Head :class="$style.item" :nav="nav" ></Head>
      <Map :class="$style.item" :option="map" ref="map"></Map>
      <SecondMenu :class="$style.SecondMenu"></SecondMenu>
-    <MapTool :class="$style.maptool"  @control="control"></MapTool>
-    <Center :class="$style.center"></Center>
+
+    <Center :class="$style.center" :user="user"></Center>
   </div>
 </template>
 
@@ -29,6 +29,11 @@
            map:config.map
          }
         },
+        computed:{
+          user(){
+            return this.$store.state.user
+          }
+        },
         mounted() {
 
         },
@@ -51,7 +56,7 @@
 </script>
 
 <style lang="scss" module>
-  $height:920px;
+  $height:800px;
  .root{
     width: 100%;
     height: 100%;
@@ -67,7 +72,7 @@
    .SecondMenu{
      position: absolute;
      z-index: 999;
-     left: 0.6%;
+     right: 0.6%;
      top: 18%;
    }
    .maptool{
@@ -77,11 +82,11 @@
      top: 13%;
    }
    .center{
-     width: 40%;
+     width: 30%;
      height: 40%;
      position: absolute;
      z-index: 999;
-     left: 30%;
+     left: 39%;
      top: 33%;
    }
  }

@@ -15,12 +15,11 @@
                    <div class="dropdown">
                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                        <span class="glyphicon glyphicon-user">
-
                        </span>
                        <span class="caret"></span>
                      </button>
                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                       <li><a href="#">jobs</a></li>
+                       <li><a href="#">{{user.zh}}</a></li>
                        <li role="separator" class="divider"></li>
                        <li><a href="#" @click="logout">退出</a></li>
                      </ul>
@@ -49,7 +48,11 @@
 
          }
        },
-
+       computed:{
+         user(){
+           return this.$store.state.user;
+         }
+       },
        methods:{
           logout:function () {
             this.$router.push('/login')
@@ -65,13 +68,13 @@
     .con{
       display: flex;
       .item:nth-child(1){
-          width: 28%;
+          width: 32%;
          font-size: 3rem;
         padding: 0.2rem 0 0 0.1rem;
         /*background-color: black;*/
       }
       .item:nth-child(2){
-        width: 66%;
+        width: 64%;
         padding: 0.4rem 0 0 5rem;
       }
       .item:nth-child(3){

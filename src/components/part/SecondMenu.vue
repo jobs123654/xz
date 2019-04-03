@@ -1,7 +1,7 @@
 <template>
     <div>
       <ul class="list-group">
-        <li class="list-group-item" v-for="(item,i) in list" @click="select(i)" :class="key==i?'height':'normal'">
+        <li class="list-group-item" v-for="(item,i) in list" @click="select(item,i)" :class="key==i?'height':'normal'">
           {{item.name}}
         </li>
       </ul>
@@ -20,8 +20,25 @@
           }
        },
        methods:{
-          select:function (item) {
-             this.key=item
+
+          select:function (item,i) {
+             let map=this.$parent.$refs.map
+             this.key=i
+             switch (item.name) {
+               case '比例尺':
+                 map.addScale()
+                 break;
+               case '地图鹰眼':
+                 map.addMinimap()
+                 break;
+               case '地图平移':
+                 map.addPan()
+                 break;
+               case '空间量算':
+                 map.initMeasure()
+                 break;
+
+             }
           }
        },
       computed:{
@@ -40,7 +57,7 @@
 
 <style scoped>
 li{
-  margin-top: 20%;
+  margin-top: 18%;
   cursor: pointer;
 }
   .height{

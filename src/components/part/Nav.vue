@@ -15,6 +15,9 @@
         methods:{
           select:function (i) {
             this.$store.commit('setSecondMenuList',i.children)
+            if (i.name.indexOf('个人')>-1){
+              this.$store.commit('setShowCenter',true)
+            }
           }
         },
 
