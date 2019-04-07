@@ -65,6 +65,7 @@
   .root{
     /*background-color: black;*/
     color: #337ab7;
+      height: 70px;
     .con{
       display: flex;
       .item:nth-child(1){

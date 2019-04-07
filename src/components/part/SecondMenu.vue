@@ -34,9 +34,12 @@
                case '地图平移':
                  map.addPan()
                  break;
-               case '空间量算':
+                case '空间量算':
                  map.initMeasure()
                  break;
+                 case '数据检索':
+                     this.$parent.$refs.query.show()
+                     break;
 
              }
           }

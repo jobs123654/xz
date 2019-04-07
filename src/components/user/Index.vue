@@ -1,16 +1,17 @@
 <template>
   <div :class="$style.root">
      <Head :class="$style.item" :nav="nav" ></Head>
-     <Map :class="$style.item" :option="map" ref="map" :db="dbConfig"></Map>
-     <SecondMenu :class="$style.SecondMenu"></SecondMenu>
-
-    <Center :class="$style.center" :user="user"></Center>
+      <Map :class="$style.item" :option="map" ref="map" :db="dbConfig"></Map>
+      <SecondMenu :class="$style.SecondMenu"></SecondMenu>
+      <Center :class="$style.center" :user="user"></Center>
+      <Query :class="$style.query" ref="query"></Query>
   </div>
 </template>
 
 <script>
    import config from '../config/config'
    import Head from '../part/Head'
+   import Query from '../part/Query'
    import Map from '../map/Map'
    import SecondMenu from '../part/SecondMenu'
    import MapTool from '../toolbar/MapTool'
@@ -22,7 +23,7 @@
           SecondMenu,
           Head,
           Map,
-          MapTool,Center,
+          MapTool,Center,Query
         },
         data:function () {
          return{
@@ -34,10 +35,13 @@
         computed:{
           user(){
             return this.$store.state.user
-          }
+          },
+            getMap(){
+              return this.$refs.map.map
+            }
         },
         mounted() {
-
+              this.$refs.query.map=this.getMap()
         },
       methods:{
           control(i){
@@ -63,33 +67,42 @@
     width: 100%;
     height: 100%;
     display: flex;
-   position: relative;
+    position: relative;
      flex-direction: column;
-   .item:nth-child(2){
+     .item:nth-child(1){
+
+     }
+     .item:nth-child(2){
      width: 100%;
      height: $height;
      z-index: 0;
+
      /*pointer-events: none;*/
    }
+     .SecondMenu,.maptool,.center,.query{
+         position: absolute;
+         z-index: 999;
+     }
    .SecondMenu{
-     position: absolute;
-     z-index: 999;
+
      right: 0.6%;
      top: 18%;
    }
    .maptool{
-     position: absolute;
-     z-index: 999;
+
      right: 0.6%;
      top: 13%;
    }
    .center{
      width: 30%;
      height: 40%;
-     position: absolute;
-     z-index: 999;
+
      left: 39%;
      top: 33%;
    }
+     .query{
+         left:39%;
+         top:20%
+     }
  }
 </style>

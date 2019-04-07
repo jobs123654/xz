@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import Bus from '../common/Bus'
+    import db from '../config/db'
   import {mapMutations,mapState} from 'vuex'
     export default {
         name: "Map",
@@ -14,6 +16,7 @@
         },
          mounted:function(){
           this.init()
+             Bus.$on('query',this.query);
          },
         data:function(){
           return{
@@ -32,8 +35,21 @@
                 }
             )
         },
+        watch:{
+          result(){
+              let resultLayer = L.geoJSON(this.result, {
+                  onEachFeature: function (feature, layer) {
+                      layer.bindPopup("ID: " + feature.properties.SMID +
+                          "<br> " + feature.properties.COUNTRY);
+                  }
+              }).addTo(this.map);
+          }
+        },
          methods:{
              ...mapMutations(['setFeatures','clearFeatures']),
+             query(){
+                 this.queryByIds([246, 247])
+             },
            init() {
              // 初始化地图信息
              this.map = L.map(this.$el, this.option.option);
@@ -43,8 +59,6 @@
              this.editableLayers = new L.FeatureGroup();
            },
             initMeasure(){
-
-
               this.map.addLayer(this.editableLayers);
 
               var MyCustomMarker = L.Icon.extend({
@@ -77,8 +91,6 @@
                 this.drawControl = new L.Control.Draw(options);
                 this.map.addControl(this.drawControl);
               }
-
-
               this.map.on(L.Draw.Event.CREATED, function (e) {
                 var type = e.layerType,
                   layer = e.layer;
@@ -95,6 +107,7 @@
               }.bind(this));
 
             },
+             //.............................
             addScale(){
               if (!this.scale){
                 this.scale=L.control.scale().addTo(this.map);
@@ -141,7 +154,7 @@
                      var featuers = serviceResult.result.features
 
                       this.setFeatures(featuers);
-                      console.log(this.result)
+
                  }.bind(this));
              },
          //    sql
