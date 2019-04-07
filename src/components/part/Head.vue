@@ -68,14 +68,14 @@
     .con{
       display: flex;
       .item:nth-child(1){
-          width: 32%;
-         font-size: 3rem;
+          width: 29%;
+         font-size: 2rem;
         padding: 0.2rem 0 0 0.1rem;
         /*background-color: black;*/
       }
       .item:nth-child(2){
-        width: 64%;
-        padding: 0.4rem 0 0 5rem;
+        width: 62%;
+        padding: 0rem 0 0 5rem;
       }
       .item:nth-child(3){
         padding: 0.5rem 0 0 0.1rem;

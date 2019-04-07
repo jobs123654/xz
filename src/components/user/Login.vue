@@ -1,5 +1,5 @@
 <template>
-  <div class="panel panel-default col-md-3">
+  <div class="panel panel-default col-md-5">
     <div class="panel-heading">
       <h3>{{title}}</h3>
     </div>
@@ -65,7 +65,7 @@
 <style scoped>
    .panel{
      position: absolute;
-     left: 37%;
+     left: 30%;
      top: 20%;
    }
 </style>
