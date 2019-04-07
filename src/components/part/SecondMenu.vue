@@ -4,6 +4,7 @@
         <li class="list-group-item" v-for="(item,i) in list" @click="select(item,i)" :class="key==i?'height':'normal'">
           {{item.name}}
         </li>
+
       </ul>
     </div>
 </template>
@@ -40,6 +41,11 @@
                  case '数据检索':
                      this.$parent.$refs.query.show()
                      break;
+
+                 case '清除':
+                     map.clear()
+                     break;
+
 
              }
           }

@@ -7,19 +7,19 @@
         <div class="panel-body">
             <div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
                 </div>
+                <hr>
+                <div class="form-group" v-show="more">
 
+                    <a href="#" class="glyphicon glyphicon-flash btn" @click="querygeo" title="几何查询"></a>
+                </div>
                 <div class="form-group">
-                    <label>
-                        <button type="submit" class="btn btn-default" @click="query">查询</button>
-                        <a href="#" class="btn btn-default">更多</a>
-                    </label>
+                    <button type="submit" class="btn btn-default" @click="query">查询</button>
+                    <a href="#" class="btn btn-default" @click="showMore">更多</a>
                 </div>
 
             </div>
@@ -35,19 +35,28 @@
             data(){
                 return{
                  visible:true,
-                    map:{}
+                    map:{},
+                    more:false
                 }
             },
         methods:{
-            query(){
-                Bus.$emit('query')
+            querygeo(){
+                Bus.$emit('querygeo')
                 this.close()
+            },
+            query(){
+                Bus.$emit('query',{})
+                this.close()
+            },
+            showMore(){
+              this.more=!this.more
             },
             show(){
                 this.visible=true
             },
             close(){
                 this.visible=false
+                this.more=false
             }
         }
     }

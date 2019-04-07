@@ -17,6 +17,7 @@
          mounted:function(){
           this.init()
              Bus.$on('query',this.query);
+             Bus.$on('querygeo',this.querygeo);
          },
         data:function(){
           return{
@@ -26,6 +27,7 @@
             minimap:null,
             editableLayers:null,
             drawControl:null,
+              queryControl:null,
           }
         },
         computed:{
@@ -47,9 +49,44 @@
         },
          methods:{
              ...mapMutations(['setFeatures','clearFeatures']),
+             //////////////////////////////////////////////////////////
              query(){
                  this.queryByIds([246, 247])
              },
+             querygeo(){
+                 var options = {
+                     position: 'topleft',
+                     draw: {
+                         polyline: false,
+                         polygon: true,
+                         circle: false,
+                         marker: false,
+                         rectangle:false,
+                         circlemarker:false,
+                     },
+                     edit: {
+                         featureGroup: this.editableLayers,
+                         remove: true
+                     }
+                 };
+                 if (this.queryControl){
+                     this.queryControl=null
+                 } else{
+                     this.queryControl = new L.Control.Draw(options);
+                     this.map.addControl(this.queryControl);
+                 }
+                 this.map.on(L.Draw.Event.CREATED, function (e) {
+                     var type = e.layerType,
+                         layer = e.layer;
+                     if (type === 'polygon') {
+                         layer.bindPopup('A popup!');
+                     }
+                     this.editableLayers.addLayer(layer);
+                     let p=L.polygon(layer.editing.latlngs[0], {})
+                     this.queryBYGeos(p)
+                 }.bind(this));
+             },
+             ///////////////////////////////////////////////////////////////////////////
            init() {
              // 初始化地图信息
              this.map = L.map(this.$el, this.option.option);
@@ -60,16 +97,14 @@
            },
             initMeasure(){
               this.map.addLayer(this.editableLayers);
-
-              var MyCustomMarker = L.Icon.extend({
+              /*var MyCustomMarker = L.Icon.extend({
                 options: {
                   shadowUrl: null,
                   iconAnchor: new L.Point(12, 12),
                   iconSize: new L.Point(24, 24),
                   iconUrl: 'link/to/image.png'
                 }
-              });
-
+              });*/
               var options = {
                 position: 'topleft',
                 draw: {
@@ -91,22 +126,36 @@
                 this.drawControl = new L.Control.Draw(options);
                 this.map.addControl(this.drawControl);
               }
+
+
               this.map.on(L.Draw.Event.CREATED, function (e) {
-                var type = e.layerType,
-                  layer = e.layer;
-                if (type === 'marker') {
-                    layer.bindPopup('A popup!');
-                }
+                  var type = e.layerType,
+                      layer = e.layer;
+                  if (type === 'marker') {
+                      layer.bindPopup('A popup!');
+                  }
 
-                this.editableLayers.addLayer(layer);
-                let p=L.polygon(layer.editing.latlngs[0], {})
+                  this.editableLayers.addLayer(layer);
+                  let p=L.polygon(layer.editing.latlngs[0], {})
 
-                if (this.getDistance(p)){
-                  console.log(p)
-                }
+                  if (this.getDistance(p)){
+                      console.log(p)
+                  }
               }.bind(this));
+              ///new
+              //   this.map.off()
 
             },
+             clear(){
+
+                  this.editableLayers.clearLayers();
+                 this.map.eachLayer(function(layer){
+                     if(!layer._layerUrl){
+                         this.map.removeLayer(layer)
+                     }
+
+                 }.bind(this));
+             },
              //.............................
             addScale(){
               if (!this.scale){
@@ -125,9 +174,7 @@
             addPan(){
               this.map.removeControl(this.drawControl)
             },
-            clear(){
-              this.editableLayers.clearLayers();
-            },
+
             //  测距
            getDistance(geometry){
 

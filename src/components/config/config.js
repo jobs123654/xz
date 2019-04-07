@@ -30,6 +30,9 @@ export default {
         {
           name:'地图平移',
         },
+          {
+              name:'清除',
+          }
       ]
     },
     {
@@ -41,6 +44,9 @@ export default {
         {
           name:'在线编辑',
         },
+          {
+              name:'清除',
+          }
       ]
     },
     {
@@ -58,6 +64,9 @@ export default {
         {
           name:'形状比分析',
         },
+          {
+              name:'清除',
+          }
       ]
     },
     // {
@@ -69,5 +78,8 @@ export default {
     {
       name:'个人信息',
     },
+      {
+          name:'清除',
+      },
   ]
 }
