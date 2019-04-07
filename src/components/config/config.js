@@ -11,9 +11,10 @@ export default {
        center: [39.79, 116.85],
        maxZoom: 5,
        zoom: 0,
-      measureControl:true,
+       measureControl:true,
     },
     url:"http://support.supermap.com.cn:8090/iserver/services/map-jingjin/rest/maps/京津地区地图",
+      dataUrl:"http://support.supermap.com.cn:8090/iserver/services/data-world/rest/data",
   },
   //导航菜单
   resourceMenu:[

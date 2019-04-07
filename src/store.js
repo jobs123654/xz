@@ -16,6 +16,7 @@ export default new Vuex.Store({
     showCenter:false,
     distance:0,
     area:0,
+      features:[],
   },
   mutations:{
     setSecondMenuList(state,v){
@@ -24,6 +25,12 @@ export default new Vuex.Store({
     pushItemToSecondMenu(state,v){
       state.SecondMenuList.push(v);
     },
+      setFeatures(state,v){
+          state.features=v;
+      },
+      clearFeatures(state){
+        state.features=[]
+      },
     setUser(state,v){
       state.user=v;
     },

@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.root">
      <Head :class="$style.item" :nav="nav" ></Head>
-     <Map :class="$style.item" :option="map" ref="map"></Map>
+     <Map :class="$style.item" :option="map" ref="map" :db="dbConfig"></Map>
      <SecondMenu :class="$style.SecondMenu"></SecondMenu>
 
     <Center :class="$style.center" :user="user"></Center>
@@ -15,6 +15,7 @@
    import SecondMenu from '../part/SecondMenu'
    import MapTool from '../toolbar/MapTool'
    import Center from '../user/Center'
+   import db from '../config/db'
     export default {
         name: "Index",
         components:{
@@ -26,7 +27,8 @@
         data:function () {
          return{
            nav:config.resourceMenu,SecondMenu,
-           map:config.map
+           map:config.map,
+             dbConfig:db
          }
         },
         computed:{

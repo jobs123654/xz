@@ -5,11 +5,12 @@
 </template>
 
 <script>
-
+  import {mapMutations,mapState} from 'vuex'
     export default {
         name: "Map",
         props:{
           option:Object,
+            db:Object,
         },
          mounted:function(){
           this.init()
@@ -24,8 +25,15 @@
             drawControl:null,
           }
         },
+        computed:{
+            ...mapState(
+                {
+                    'result':'features'
+                }
+            )
+        },
          methods:{
-
+             ...mapMutations(['setFeatures','clearFeatures']),
            init() {
              // 初始化地图信息
              this.map = L.map(this.$el, this.option.option);
@@ -109,6 +117,7 @@
             },
             //  测距
            getDistance(geometry){
+
              var measureParam = new SuperMap.MeasureParameters();
              measureParam.geometry= geometry;
              measureParam.unit = SuperMap.Unit.METER;
@@ -118,7 +127,56 @@
                console.log(result)
 
              });
-           }
+           },
+         //    通过id检索
+             queryByIds(ids){
+                 // 数据集ID查询服务参数
+                 var idsParam = new SuperMap.GetFeaturesByIDsParameters({
+                     IDs: ids,
+                     datasetNames: [`${db.dataSourceName}:${db.dataSetName}`]
+                 });
+                // 创建指定ID查询实例
+                 L.supermap.featureService(this.option.dataUrl).getFeaturesByIDs(idsParam, function (serviceResult) {
+                     // 获取服务器返回的结果
+                     var featuers = serviceResult.result.features
+
+                      this.setFeatures(featuers);
+                      console.log(this.result)
+                 }.bind(this));
+             },
+         //    sql
+             queryBySql(){
+                 var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+                     queryParameter: {
+                         name: `${db.dataSetName}@${db.dataSourceName}`,
+                         attributeFilter: db.attributeFilter
+                     },
+                     datasetNames: [`${db.dataSourceName}:${db.dataSetName}`]
+                 });
+                      // 创建SQL查询实例
+                 L.supermap.featureService(this.option.dataUrl).getFeaturesBySQL(sqlParam,function (serviceResult) {
+                     // 获取服务器返回的结果
+                     var featuers = serviceResult.result.features
+                     this.setFeatures(featuers)
+                 }.bind(this));
+             },
+         //    query by geos
+             queryBYGeos(polygon){
+// 设置几何查询范围
+//                  var polygon = L.polygon([[0, 0], [-30, 0], [-10, 30], [0, 0]], {color: 'red'});
+// 设置任意几何范围查询参数
+                 var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
+                     datasetNames: [`${db.dataSourceName}:${db.dataSetName}`],
+                     geometry: polygon,
+                     spatialQueryMode: "INTERSECT" // 相交空间查询模式
+                 });
+// 创建任意几何范围查询实例
+                 L.supermap .featureService(this.option.dataUrl) .getFeaturesByGeometry(geometryParam,function (serviceResult) {
+                     // 获取服务器返回的结果
+                     var featuers = serviceResult.result.features;
+                     this.setFeatures(featuers)
+                 }.bind(this));
+             }
          }
     }
 </script>
