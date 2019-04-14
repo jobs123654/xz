@@ -138,8 +138,8 @@
                   this.editableLayers.addLayer(layer);
                   let p=L.polygon(layer.editing.latlngs[0], {})
 
-                  if (this.getDistance(p)){
-                      console.log(p)
+                  if (type==='polygon'){
+                      this.getArea(p)
                   }
               }.bind(this));
               ///new
@@ -185,9 +185,17 @@
              measureService.measureDistance(measureParam,function (serviceResult){
                var result=serviceResult.result;
                console.log(result)
-
              });
            },
+             getArea(polygon){
+                 var areaMeasureParam = new SuperMap.MeasureParameters(polygon);
+                 L.supermap .measureService(this.option.url) .measureArea(areaMeasureParam, function (serviceResult) {
+                     //获取服务器返回的结果
+                     var result = serviceResult.result;
+                     alert(result.area.toFixed(2)+'平方米');
+                 });
+             },
+
          //    通过id检索
              queryByIds(ids){
                  // 数据集ID查询服务参数
@@ -237,7 +245,33 @@
                      this.setFeatures(featuers)
                  }.bind(this));
              }
-         }
+         },
+    //    在线编辑 提交
+         commit() {
+                    if (featureGroup.hasLayer(marker)) {
+                        marker = marker.toGeoJSON();
+                        marker.properties = {POP: 1, CAPITAL: 'test'};
+                        var addFeatureParams = new SuperMap.EditFeaturesParameters({
+                            dataSourceName: db.dataSourceName,
+                            dataSetName: db.dataSetName,
+                            features: marker,
+                            editType: "add",
+                            returnContent: true
+                        });
+                        featureService.editFeatures(addFeatureParams, function (serviceResult) {
+                            if (serviceResult.result.succeed) {
+                                featureGroup.clearLayers();
+                                marker = null;
+                                if (resultLayer) {
+                                    map.removeLayer(resultLayer);
+                                    resultLayer = null;
+                                }
+                                initFeature();
+                                widgets.alert.showAlert(resources.msg_submitSuccess, true);
+                            }
+                        }.bind(this));
+                    }
+                }
     }
 </script>
 

@@ -2,6 +2,8 @@
     <div class="panel panel-default col-md-4" v-show="visible">
         <div class="panel-heading" style="display: flex;">
             <span style="flex: 70%">综合检索</span>
+
+            
             <span style="cursor: pointer;" @click="close">&times;</span>
         </div>
         <div class="panel-body">
@@ -34,7 +36,7 @@
 
             data(){
                 return{
-                 visible:true,
+                 visible:false,
                     map:{},
                     more:false
                 }

@@ -62,7 +62,7 @@
 </script>
 
 <style lang="scss" module>
-  $height:580px;
+  $height:720px;
  .root{
     width: 100%;
     height: 100%;

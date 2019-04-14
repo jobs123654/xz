@@ -5,13 +5,15 @@ export default {
   map:{
     option:{
       crs:L.CRS.EPSG4326,
-        center: [20, 80],
+        center: [20, 80],//[117.67 , 39.65],
         maxZoom: 18,
         zoom: 2,
        measureControl:true,
     },
-    url:"http://support.supermap.com.cn:8090/iserver/services/map-world/rest/maps/World",
+      url:"http://support.supermap.com.cn:8090/iserver/services/map-world/rest/maps/World",
       dataUrl:"http://support.supermap.com.cn:8090/iserver/services/data-world/rest/data",
+      // url:"http://localhost:8090/iserver/services/map-hebei/rest/maps/base",
+      // dataUrl:"http://localhost:8090/iserver/services/data-hebei/rest/data",
   },
   //导航菜单
   resourceMenu:[
