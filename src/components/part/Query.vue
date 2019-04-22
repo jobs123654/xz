@@ -3,7 +3,7 @@
         <div class="panel-heading" style="display: flex;">
             <span style="flex: 70%">综合检索</span>
 
-            
+
             <span style="cursor: pointer;" @click="close">&times;</span>
         </div>
         <div class="panel-body">
@@ -15,13 +15,13 @@
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
                 </div>
                 <hr>
-                <div class="form-group" v-show="more">
+                <div class="form-group" >
 
                     <a href="#" class="glyphicon glyphicon-flash btn" @click="querygeo" title="几何查询"></a>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-default" @click="query">查询</button>
-                    <a href="#" class="btn btn-default" @click="showMore">更多</a>
+                    <a href="#" class="btn btn-default" @click="close">取消</a>
                 </div>
 
             </div>

@@ -80,8 +80,28 @@ export default {
     {
       name:'个人信息',
     },
-      {
-          name:'清除',
-      },
-  ]
+
+  ],
+//    在线编辑
+    edit:[
+        {
+          name:'dot',
+            title:'点选',
+            _class:'btn btn-default glyphicon glyphicon-hand-up'
+        },
+        {
+            name:'more',
+            title:'批量选择',
+            _class:'btn btn-default glyphicon glyphicon-link'
+        },
+        {
+            name:'property',
+            title:'属性',
+            _class:'btn btn-default glyphicon glyphicon-pencil'
+        },{
+            name:'ok',
+            title:'完成',
+            _class:'btn btn-default glyphicon glyphicon-ok'
+        },
+    ]
 }

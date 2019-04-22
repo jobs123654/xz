@@ -45,6 +45,9 @@
                  case '清除':
                      map.clear()
                      break;
+                 case '在线编辑':
+                     this.$parent.showEdit=!this.$parent.showEdit
+                     break;
 
 
              }

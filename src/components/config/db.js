@@ -2,7 +2,7 @@
 export default {
 //   查询世界范围内国家
     dataSourceName:'World',
-    dataSetName:'Countries',
+    dataSetName:'Countries',//Capitals
     attributeFilter:'',
     fields:[],
 }

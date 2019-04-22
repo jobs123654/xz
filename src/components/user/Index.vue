@@ -5,6 +5,7 @@
       <SecondMenu :class="$style.SecondMenu"></SecondMenu>
       <Center :class="$style.center" :user="user"></Center>
       <Query :class="$style.query" ref="query"></Query>
+      <EditTool :class="$style.EditTool" :editlist="editlist" v-show="showEdit" ref="edit"></EditTool>
   </div>
 </template>
 
@@ -15,6 +16,7 @@
    import Map from '../map/Map'
    import SecondMenu from '../part/SecondMenu'
    import MapTool from '../toolbar/MapTool'
+   import EditTool from '../toolbar/EditTool'
    import Center from '../user/Center'
    import db from '../config/db'
     export default {
@@ -23,13 +25,15 @@
           SecondMenu,
           Head,
           Map,
-          MapTool,Center,Query
+          MapTool,Center,Query,EditTool
         },
         data:function () {
          return{
            nav:config.resourceMenu,SecondMenu,
-           map:config.map,
-             dbConfig:db
+              map:config.map,
+             dbConfig:db,
+             showEdit:false,
+             editlist:config.edit
          }
         },
         computed:{
@@ -41,7 +45,7 @@
             }
         },
         mounted() {
-              this.$refs.query.map=this.getMap()
+
         },
       methods:{
           control(i){
@@ -79,7 +83,7 @@
 
      /*pointer-events: none;*/
    }
-     .SecondMenu,.maptool,.center,.query{
+     .SecondMenu,.maptool,.center,.query,.EditTool{
          position: absolute;
          z-index: 999;
      }
@@ -103,6 +107,10 @@
      .query{
          left:39%;
          top:20%
+     }
+     .EditTool{
+         left:87%;
+         top:10%
      }
  }
 </style>
