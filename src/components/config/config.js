@@ -109,9 +109,10 @@ export default {
     ],
 //   指标计算
    target:{
-     title:'指标计算',
+     title:'指标分析',
      selectTitle:'选择指标',
-     cityTitle:'选择城市',
+     selectTime:'选择年份',
+     cityTitle:'选择城区',
      items:[
        {
          name:'重心迁移分析',
@@ -166,6 +167,6 @@ export default {
          name:'唐海县',
          isChecked:false
        },
-     ]
+     ],
    }
 }

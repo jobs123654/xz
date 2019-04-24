@@ -3,7 +3,7 @@ export default{
     getEconomicCenter(){
 
     },
-    // 获取经济重心值
+    // 获取人口重心值
     getPopulationCenter(){
 
     },
@@ -19,4 +19,15 @@ export default{
     getPercentageElongation(){
 
     },
+//  获取年份
+   getYears(){
+      let i=1990,arr=[];
+      for(;i<2019;i++){
+        arr.push({
+
+          name:i,
+        })
+      }
+      return arr
+   }
 }
