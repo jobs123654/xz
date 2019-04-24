@@ -16,7 +16,7 @@ export default new Vuex.Store({
     showCenter:false,
     distance:0,
     area:0,
-      features:[],
+    features:[],
   },
   mutations:{
     setSecondMenuList(state,v){

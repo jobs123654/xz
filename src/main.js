@@ -4,8 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import func from './components/common/func'
+import bus from './Bus'
 Vue.config.productionTip = false
-
+window.func=func
+window.bus =new Vue();
 /* eslint-disable no-new */
 
 new Vue({

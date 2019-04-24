@@ -32,10 +32,9 @@ export default {
         {
           name:'地图平移',
         },
-          {
-              name:'清除',
-          }
-      ]
+
+      ],
+      event:''
     },
     {
       name:'数据管理',
@@ -49,36 +48,40 @@ export default {
           {
               name:'清除',
           }
-      ]
+      ],
+      event:''
     },
     {
       name:'形态分析',
       children:[
-        {
-          name:'重心迁移分析',
-        },
-        {
-          name:'紧凑度分析',
-        },
-        {
-          name:'延伸率分析',
-        },
-        {
-          name:'形状比分析',
-        },
-          {
-              name:'清除',
-          }
-      ]
+        // {
+        //   name:'重心迁移分析',
+        // },
+        // {
+        //   name:'紧凑度分析',
+        // },
+        // {
+        //   name:'延伸率分析',
+        // },
+        // {
+        //   name:'形状比分析',
+        // },
+
+      ],
+      event:'xingtai'
     },
     // {
     //   name:'城市空间量算',
     // },
     {
       name:'专题地图',
+      children:[],
+      event:'theme'
     },
     {
       name:'个人信息',
+      children:[],
+      event:''
     },
 
   ],
@@ -103,5 +106,66 @@ export default {
             title:'完成',
             _class:'btn btn-default glyphicon glyphicon-ok'
         },
-    ]
+    ],
+//   指标计算
+   target:{
+     title:'指标计算',
+     selectTitle:'选择指标',
+     cityTitle:'选择城市',
+     items:[
+       {
+         name:'重心迁移分析',
+         children:[
+           {
+             name:'经济重心迁移'
+           },
+           {
+             name:'人口重心迁移'
+           },
+         ]
+       },
+       {
+         name:'延伸率分析',
+       },
+       {
+         name:'形状比分析',
+       },
+       {
+         name:'紧凑度分析',
+       },
+
+     ],
+     citys:[
+       {
+         id:'1',
+         name:'路南区',
+         isChecked:false
+       },
+       {
+         id:'2',
+         name:'路北区',
+         isChecked:false
+       },
+       {
+         id:'3',
+         name:'丰南区',
+         isChecked:false
+       },
+       {
+         id:'4',
+         name:'丰润区',
+         isChecked:false
+       },
+       {
+         id:'5',
+         name:'滦南县',
+         isChecked:false
+       },
+       {
+         id:'6',
+         name:'唐海县',
+         isChecked:false
+       },
+     ]
+   }
 }

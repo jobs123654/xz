@@ -6,6 +6,7 @@
       <Center :class="$style.center" :user="user"></Center>
       <Query :class="$style.query" ref="query"></Query>
       <EditTool :class="$style.EditTool" :editlist="editlist" v-show="showEdit" ref="edit"></EditTool>
+    <Target :class="$style.Target" :target="target"></Target>
   </div>
 </template>
 
@@ -15,6 +16,7 @@
    import Query from '../part/Query'
    import Map from '../map/Map'
    import SecondMenu from '../part/SecondMenu'
+   import Target from '../part/Target'
    import MapTool from '../toolbar/MapTool'
    import EditTool from '../toolbar/EditTool'
    import Center from '../user/Center'
@@ -25,7 +27,7 @@
           SecondMenu,
           Head,
           Map,
-          MapTool,Center,Query,EditTool
+          MapTool,Center,Query,EditTool,Target
         },
         data:function () {
          return{
@@ -33,7 +35,8 @@
               map:config.map,
              dbConfig:db,
              showEdit:false,
-             editlist:config.edit
+             editlist:config.edit,
+             target:config.target,
          }
         },
         computed:{
@@ -83,7 +86,7 @@
 
      /*pointer-events: none;*/
    }
-     .SecondMenu,.maptool,.center,.query,.EditTool{
+     .SecondMenu,.maptool,.center,.query,.EditTool,.Target{
          position: absolute;
          z-index: 999;
      }
@@ -112,5 +115,9 @@
          left:87%;
          top:10%
      }
+   .Target{
+     left:30%;
+     top:10%
+   }
  }
 </style>

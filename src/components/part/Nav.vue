@@ -18,6 +18,7 @@
             if (i.name.indexOf('个人')>-1){
               this.$store.commit('setShowCenter',true)
             }
+            bus.$emit(i.event)
           }
         },
 
