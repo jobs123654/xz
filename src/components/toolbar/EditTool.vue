@@ -1,5 +1,5 @@
 <template>
- <div class="root">
+ <div class="root" v-show="visible">
      <div class="con">
          <span v-for="i in editlist" @click="select(i.name)" :class="i._class" :title="i.title"></span>
      </div>
@@ -29,9 +29,19 @@
         data:function(){
             return {
                 active:null,
-                showPro:false
+                showPro:false,
+                visible:false
             }
         },
+           mounted(){
+              bus.$on('showEdit',e=>{
+                this.visible=true
+              })
+             bus.$on('showEditClose',e=>{
+               this.visible=false
+             })
+
+           },
         methods:{
            select:function (i) {
                if (i.indexOf('pro')>-1){

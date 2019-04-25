@@ -168,5 +168,10 @@ export default {
          isChecked:false
        },
      ],
+   },
+//   查询
+   citysQuery:{
+     dataSourceName:'World',
+     dataSetName:'Countries',//Capitals
    }
 }

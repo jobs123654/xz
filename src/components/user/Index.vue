@@ -108,6 +108,7 @@
      top: 33%;
    }
      .query{
+         width: 20%;
          left:39%;
          top:20%
      }

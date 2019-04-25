@@ -85,7 +85,7 @@
         },
         data(){
           return{
-            visible:true,
+            visible:false,
             targetItem:{},
             checklist:[],
              checkAll:false,
@@ -151,8 +151,6 @@
                   a.push(e.name)
                })
               this.yearResult=a.join(',')
-
-
           }
         }
 

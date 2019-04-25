@@ -7,7 +7,7 @@
 <script>
     import Bus from '../common/Bus'
     import db from '../config/db'
-  import {mapMutations,mapState} from 'vuex'
+    import {mapMutations,mapState} from 'vuex'
     export default {
         name: "Map",
         props:{
@@ -18,16 +18,10 @@
           this.init()
 
              Bus.$on('clear',this.clear);
-             Bus.$on('query',function (d) {
-                 this.queryBySql(d.value)
-             }.bind(this));
 
-             Bus.$on('queryByGeo',function (d) {
-                 this.querygeo(d.value)
-             }.bind(this));
-             Bus.$on('queryByBuffer',function (d) {
-                 this.querybuffer(d.value)
-             }.bind(this));
+             Bus.$on('queryBySql',this.queryBySql);
+           Bus.$on('queryByRect',this.queryByRect);
+           Bus.$on('queryByPoint',this.queryByPoint);
          },
         data:function(){
           return{
@@ -46,7 +40,7 @@
                 {
                     'result':'features'
                 }
-            )
+                )
         },
         watch:{
           result(){
@@ -68,6 +62,7 @@
 
                   }
               }).addTo(this.map);
+
           //    绘制结果
               this.result.features.map(e=>{
                   if(e.properties.MAN_NAME){
@@ -80,6 +75,26 @@
          methods:{
              ...mapMutations(['setFeatures','clearFeatures']),
              //////////////////////////////////////////////////////////
+           queryByRect(d){
+             this.queryByJH(d,{
+               polyline: false,
+               polygon: false,
+               circle: false,
+               marker: false,
+               rectangle:true,
+               circlemarker:false,
+             })
+           },
+           queryByPoint(d){
+             this.queryByJH(d,{
+               polyline: false,
+               polygon: false,
+               circle: false,
+               marker: false,
+               rectangle:false,
+               circlemarker:false,
+             })
+           },
              query(){
                  this.queryByIds([246, 247])
              },
@@ -90,73 +105,47 @@
                          iconUrl: '../../../static/img/man.png',
                          iconSize: [30, 30],
                          iconAnchor: [30, 34],
-                         // popupAnchor: [-20, 0],
-                         // shadowUrl: 'my-icon-shadow.png',
-                         // shadowSize: [68, 95],
-                         // shadowAnchor: [32, 94]
-                     })
-                 }).addTo(this.map);
-             },
-             loadQm(e){
-                 let o=e.geometry.coordinates
-                 L.marker([o[1],o[0]],{
-                     icon:L.icon({
-                         iconUrl: '../../../static/img/gm.png',
-                         iconSize: [40, 40],
-                         iconAnchor: [40, 44],
-                         // popupAnchor: [-20, 0],
-                         // shadowUrl: 'my-icon-shadow.png',
-                         // shadowSize: [68, 95],
-                         // shadowAnchor: [32, 94]
-                     })
-                 }).addTo(this.map);
-             },
-             loadGm(e){
-                 let o=e.geometry.coordinates
-
-                 L.marker([o[1],o[0]],{
-                     icon:L.icon({
-                         iconUrl: '../../../static/img/gm.png',
-                         iconSize: [30, 30],
-                         iconAnchor: [30, 34],
-                         // popupAnchor: [-20, 0],
-                         // shadowUrl: 'my-icon-shadow.png',
-                         // shadowSize: [68, 95],
-                         // shadowAnchor: [32, 94]
                      })
                  }).addTo(this.map);
              },
 
-             querygeo(item){
-                 var options = {
-                     position: 'topleft',
-                     draw: {
-                         polyline: false,
-                         polygon: true,
-                         circle: false,
-                         marker: false,
-                         rectangle:false,
-                         circlemarker:false,
-                     },
-                     edit: {
-                         featureGroup: this.editableLayers,
-                         remove: true
-                     }
-                 };
+                            /*{
+                              polyline: false,
+                                polygon: true,
+                              circle: false,
+                              marker: false,
+                              rectangle:false,
+                              circlemarker:false,
+                            }*/
+             drawQuery(option){
+               var options = {
+                 position: 'topleft',
+                 draw: option,
+                 edit: {
+                   featureGroup: this.editableLayers,
+                   remove: true
+                 }
+               };
+               return options
+             },
+             queryByJH(item,option){
                  if (this.queryControl){
                      this.queryControl=null
                  } else{
-                     this.queryControl = new L.Control.Draw(options);
+                     this.queryControl = new L.Control.Draw(option);
                      this.map.addControl(this.queryControl);
                  }
                  this.map.on(L.Draw.Event.CREATED, function (e) {
-                     var type = e.layerType,
-                         layer = e.layer;
-                     if (type === 'polygon') {
-                         layer.bindPopup('A popup!');
-                     }
+                     var type = e.layerType,layer=e.layer;
                      this.editableLayers.addLayer(layer);
-                     let p=L.polygon(layer.editing.latlngs[0], {})
+                     let p=''
+                     if (type==='marker'){
+                       // p=L.polygon(layer.editing._marker, {})
+                       p=layer.editing._marker
+                     } else if(type==='polygon'){
+                        p=L.polygon(layer.editing._marker, {})
+                     }
+
                      item.p=p;
                      this.queryBYGeos(item)
                  }.bind(this));
@@ -381,10 +370,10 @@
              queryBySql(item){
                  var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
                      queryParameter: {
-                         name: `${db.dataSetName}@${item.ds}`,
+                         name: `${db.dataSetName}@${item.dataSourceName}`,
                          attributeFilter: item.attr
                      },
-                     datasetNames: [`${db.dataSourceName}:${item.ds}`]
+                     datasetNames: [`${item.dataSourceName}:${item.dataSetName}`]
                  });
                       // 创建SQL查询实例
                  L.supermap.featureService(this.option.dataUrl).getFeaturesBySQL(sqlParam,function (serviceResult) {
@@ -396,14 +385,14 @@
          //    query by geos
              queryBYGeos(item){
 // 设置几何查询范围
-//                  var polygon = L.polygon([[0, 0], [-30, 0], [-10, 30], [0, 0]], {color: 'red'});
+
 // 设置任意几何范围查询参数
                  var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
                      queryParameter: {
-                         name: `${db.dataSetName}@${item.ds}`,
+                         name: `${db.dataSetName}@${item.dataSourceName}`,
                          attributeFilter: item.attr
                      },
-                     datasetNames: [`${db.dataSourceName}:${item.ds}`],
+                     datasetNames: [`${db.dataSourceName}:${item.dataSetName}`],
                      geometry: item.p,
                      spatialQueryMode: "INTERSECT" // 相交空间查询模式
                  });
