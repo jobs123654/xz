@@ -45,9 +45,7 @@ export default {
         {
           name:'在线编辑',
         },
-          {
-              name:'清除',
-          }
+
       ],
       event:''
     },
@@ -76,7 +74,7 @@ export default {
     {
       name:'专题地图',
       children:[],
-      event:'theme'
+      event:'themeShow'
     },
     {
       name:'个人信息',
@@ -173,5 +171,20 @@ export default {
    citysQuery:{
      dataSourceName:'World',
      dataSetName:'Countries',//Capitals
-   }
+   },
+//专题图
+  theme:{
+    props:[
+      {
+        name:'属性1',
+      },
+      {
+        name:'属性2',
+      },
+    ],
+    fillColor:'#CCFFFF',
+    strokeColor:'#CCFF00',
+    opacity:'1',
+  }
+
 }

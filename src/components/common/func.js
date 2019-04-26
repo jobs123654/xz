@@ -1,4 +1,12 @@
 export default{
+    // 经纬度数组转普通数组
+    lnglatToNormal(a){
+      let r=[]
+      a.map(e=>{
+        r.push([e.lat,e.lng])
+      })
+      return r;
+    },
     // 获取经济重心值
     getEconomicCenter(){
 

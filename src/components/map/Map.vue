@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Bus from '../common/Bus'
+
     import db from '../config/db'
     import {mapMutations,mapState} from 'vuex'
     export default {
@@ -16,12 +16,12 @@
         },
          mounted:function(){
           this.init()
-
-             Bus.$on('clear',this.clear);
-
-             Bus.$on('queryBySql',this.queryBySql);
-           Bus.$on('queryByRect',this.queryByRect);
-           Bus.$on('queryByPoint',this.queryByPoint);
+             bus.$on('clear',this.clear);
+             bus.$on('queryBySql',this.queryBySql);
+             bus.$on('queryByRect',this.queryByRect);
+             bus.$on('queryByPoint',this.queryByPoint);
+             bus.$on('clear',this.clear);
+             this.map.on(L.Draw.Event.CREATED, this.draw);
          },
         data:function(){
           return{
@@ -38,7 +38,8 @@
         computed:{
             ...mapState(
                 {
-                    'result':'features'
+                    'result':'features',
+                     'queryParam':'queryParam'
                 }
                 )
         },
@@ -73,7 +74,7 @@
           }
         },
          methods:{
-             ...mapMutations(['setFeatures','clearFeatures']),
+             ...mapMutations(['setFeatures','clearFeatures','setQueryParam']),
              //////////////////////////////////////////////////////////
            queryByRect(d){
              this.queryByJH(d,{
@@ -90,7 +91,7 @@
                polyline: false,
                polygon: false,
                circle: false,
-               marker: false,
+               marker: true,
                rectangle:false,
                circlemarker:false,
              })
@@ -108,16 +109,8 @@
                      })
                  }).addTo(this.map);
              },
-
-                            /*{
-                              polyline: false,
-                                polygon: true,
-                              circle: false,
-                              marker: false,
-                              rectangle:false,
-                              circlemarker:false,
-                            }*/
-             drawQuery(option){
+             //参数配置
+              drawQuery(option){
                var options = {
                  position: 'topleft',
                  draw: option,
@@ -127,29 +120,33 @@
                  }
                };
                return options
-             },
+               },
+             //执行绘制控件
              queryByJH(item,option){
-                 if (this.queryControl){
-                     this.queryControl=null
-                 } else{
-                     this.queryControl = new L.Control.Draw(option);
+                     this.queryControl = new L.Control.Draw(this.drawQuery(option));
                      this.map.addControl(this.queryControl);
-                 }
-                 this.map.on(L.Draw.Event.CREATED, function (e) {
-                     var type = e.layerType,layer=e.layer;
-                     this.editableLayers.addLayer(layer);
-                     let p=''
-                     if (type==='marker'){
-                       // p=L.polygon(layer.editing._marker, {})
-                       p=layer.editing._marker
-                     } else if(type==='polygon'){
-                        p=L.polygon(layer.editing._marker, {})
-                     }
-
-                     item.p=p;
-                     this.queryBYGeos(item)
-                 }.bind(this));
+             //   参数传递
+                 this.setQueryParam(item)
              },
+
+            draw(e) {
+              var type = e.layerType,layer=e.layer;
+              this.editableLayers.addLayer(layer);
+              let p=''
+              if (type==='marker'){
+                // p=L.polygon(layer.editing._marker, {})
+                p=layer.editing._marker
+              } else if(type==='polygon'){
+                p=L.polygon(layer.editing._marker, {})//
+              }else if(type==='rectangle'){
+                let bounds=func.lnglatToNormal(layer._latlngs[0])
+                p=L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(this.map)
+              }
+              this.queryParam.p=p;
+
+              this.queryBYGeos(this.queryParam)
+            },
+
              editFeature(){
                  var options = {
                      position: 'topleft',
@@ -288,10 +285,9 @@
 
             },
              clear(){
-
-                 this.queryControl&&this.map.removeControl(this.queryControl);
+                  this.queryControl&&this.map.removeControl(this.queryControl);
                   this.editableLayers.clearLayers();
-                 this.map.eachLayer(function(layer){
+                  this.map.eachLayer(function(layer){
                      if(!layer._layerUrl){
                          this.map.removeLayer(layer)
                      }

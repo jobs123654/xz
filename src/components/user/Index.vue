@@ -6,7 +6,9 @@
       <Center :class="$style.center" :user="user"></Center>
       <Query :class="$style.query" ref="query"></Query>
       <EditTool :class="$style.EditTool" :editlist="editlist" v-show="showEdit" ref="edit"></EditTool>
-    <Target :class="$style.Target" :target="target"></Target>
+      <Target :class="$style.Target" :target="target"></Target>
+      <Theme :class="$style.Theme"  :theme="theme"></Theme>
+      <Clear  :class="$style.Clear" ></Clear>
   </div>
 </template>
 
@@ -17,6 +19,8 @@
    import Map from '../map/Map'
    import SecondMenu from '../part/SecondMenu'
    import Target from '../part/Target'
+   import Theme from '../part/Theme'
+   import Clear from '../part/Clear'
    import MapTool from '../toolbar/MapTool'
    import EditTool from '../toolbar/EditTool'
    import Center from '../user/Center'
@@ -27,7 +31,7 @@
           SecondMenu,
           Head,
           Map,
-          MapTool,Center,Query,EditTool,Target
+          MapTool,Center,Query,EditTool,Target,Theme,Clear
         },
         data:function () {
          return{
@@ -37,6 +41,7 @@
              showEdit:false,
              editlist:config.edit,
              target:config.target,
+             theme:config.theme
          }
         },
         computed:{
@@ -86,7 +91,7 @@
 
      /*pointer-events: none;*/
    }
-     .SecondMenu,.maptool,.center,.query,.EditTool,.Target{
+     .SecondMenu,.maptool,.center,.query,.EditTool,.Target,.Theme,.Clear{
          position: absolute;
          z-index: 999;
      }
@@ -119,6 +124,16 @@
    .Target{
      left:30%;
      top:10%
+    }
+   .Theme{
+
+     left:40%;
+     top:30%
+   }
+   .Clear{
+
+     right:2%;
+     top:80%
    }
  }
 </style>

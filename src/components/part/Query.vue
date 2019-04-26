@@ -3,7 +3,6 @@
         <div class="panel-heading" style="display: flex;">
             <span style="flex: 70%">综合检索</span>
 
-
             <span style="cursor: pointer;" @click="close">&times;</span>
         </div>
         <div class="panel-body">
@@ -11,11 +10,8 @@
                 <div class="form-group">
                     <input type="email" class="form-control"  id="exampleInputEmail1" placeholder="请输入区域ID/或名称">
                 </div>
-                <div class="form-group" >
-
+                <div class="form-group">
                     <input type="checkbox"  id="exampleInputPassword1" v-model="isEdit"  placeholder="">即时编辑
-
-
                 </div>
 
                 <hr>
@@ -33,7 +29,7 @@
 </template>
 
 <script>
-    import Bus from '../common/Bus'
+
     import EditTool from '../toolbar/EditTool'
     export default {
         name: "Query",
@@ -60,7 +56,7 @@
       },
         methods:{
              ok(){
-               Bus.$emit('queryBySql',{
+               bus.$emit('queryBySql',{
                  dataSourceName:config.citysQuery.dataSourceName,
                  dataSetName:config.citysQuery.dataSetName,
                  attr:''
@@ -74,7 +70,7 @@
                   event='queryByPoint'
                 }
 
-              Bus.$emit(event,{
+              bus.$emit(event,{
                 dataSourceName:config.citysQuery.dataSourceName,
                 dataSetName:config.citysQuery.dataSetName
               })
