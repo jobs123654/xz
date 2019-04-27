@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import Bus from '../common/Bus'
+
     export default {
         name: "TabBoundary",
         props:{
@@ -51,7 +51,7 @@
                    //完成编辑
                    this.showPro=false
                }
-               Bus.$emit('control',i)
+               bus.$emit('control',i)
                this.active=i;
            }
 

@@ -10,14 +10,24 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">{{target.selectTitle}}</label>
           <div class="col-sm-10">
-            <select name="" class="form-control" v-model="targetItem" @click="selectItem">
+            <select name="" class="form-control" v-model="zhibiao" @click="selectItem">
               <option v-for="i in target.items" :value="i">{{i.name}}</option>
             </select>
           </div>
 
           <div class="col-sm-10" v-if="children&&children.length">
-            <select name="" class="form-control" v-model="targetItem1">
+            <select name="" class="form-control" v-model="zhibiao1">
               <option v-for="i in children" :value="i.name">{{i.name}}</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">选择年份</label>
+          <div class="col-sm-10" >
+
+            <select name="" class="form-control" v-model="year">
+              <option v-for="i in years" :value="i">{{i}}年</option>
             </select>
           </div>
         </div>
@@ -27,21 +37,26 @@
 
           </label>
           <div class="col-sm-10">
-            <ul class="list-group">
-              <li class="list-group-item" v-for="i in citys" :key="i.id">
-                <input type="checkbox" :id="i.id" :value="i" v-model="checklist">
-                <label :for="i.id" >{{i.name}}</label>
-              </li>
-            </ul>
+            <CheckboxGroup v-model="checklist">
+
+              <Checkbox  v-for="i in citys" :key="i.id" :label="i.name"></Checkbox>
+            </CheckboxGroup>
+
           </div>
+
           <div class="col-sm-10">
             <div class="checkbox" style="margin-left: 35%">
+
               <label>
+
                 <input type="checkbox" @click="checkAll=!checkAll" v-model="checkAll"> 全选
               </label>
               <label>
                 <input type="checkbox" @click="cancelAll=!cancelAll" v-model="cancelAll"> 反选
               </label>
+              <label>
+                <input type="checkbox"  v-model="showStyle"> 显示样式管理器
+              </label>
             </div>
           </div>
 
@@ -49,22 +64,7 @@
 
         </div>
 
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <label class="col-sm-2 control-label">{{target.selectTime}}</label>
-            <div class="input-group">
-              <input type="text" class="form-control" v-model="yearResult">
-              <div class="input-group-addon glyphicon glyphicon-time btn" @click="selectTime"></div>
-            </div>
 
-            <ul style="height: 200px; overflow: auto;position: absolute; width: 50%;left: 100px;z-index: 10;background-color: white" v-show="showYear">
-              <li v-for="i in years" style="list-style: none;">
-                <input type="checkbox" :id="i.name" :value="i" v-model="yearlist">
-                <label :for="i.name">{{i.name}}</label>
-              </li>
-            </ul>
-          </div>
-        </div>
         <div class="form-group" style="z-index: 9">
           <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-default" @click="ok">确定</button>
@@ -96,7 +96,11 @@
             years:func.getYears(),
             yearlist:[],
             showYear:false,
-            yearResult:''
+            yearResult:'',
+            zhibiao:{},
+            year:'2019',
+            zhibiao1:{},
+            showStyle:false
           }
         },
       watch:{
@@ -124,6 +128,13 @@
           }
           this.checkAll=false
         },
+        showStyle(){
+          if (this.showStyle){
+            bus.$emit('themeShow')
+          } else{
+            bus.$emit('themeClose')
+          }
+        }
       },
       mounted(){
           bus.$on('xingtai',this.show)
@@ -148,7 +159,7 @@
           if (!this.showYear){
                let a=[]
                this.yearlist.map(e=>{
-                  a.push(e.name)
+                  a.push(e)
                })
               this.yearResult=a.join(',')
           }

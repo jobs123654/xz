@@ -36,7 +36,7 @@
 
             data(){
                 return{
-                 visible:true,
+                 visible:false,
                     map:{},
                     more:false,
                      propertyPanel:false,
@@ -60,7 +60,8 @@
                  dataSourceName:config.citysQuery.dataSourceName,
                  dataSetName:config.citysQuery.dataSetName,
                  attr:''
-               })
+               });
+
              },
             query(f){
               let event=''

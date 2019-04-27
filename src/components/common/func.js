@@ -29,13 +29,16 @@ export default{
     },
 //  获取年份
    getYears(){
-      let i=1990,arr=[];
-      for(;i<2019;i++){
-        arr.push({
-
-          name:i,
-        })
-      }
-      return arr
-   }
+      return [
+          '2019','2000','1982',
+      ]
+   },
+//    创建id
+    getRanDomID(){
+        let i=5,j=0,r=''
+        for (;j<5;j++){
+            r+=Math.ceil(Math.random()*9)
+        }
+        return r
+    }
 }

@@ -8,7 +8,9 @@
       <EditTool :class="$style.EditTool" :editlist="editlist" v-show="showEdit" ref="edit"></EditTool>
       <Target :class="$style.Target" :target="target"></Target>
       <Theme :class="$style.Theme"  :theme="theme"></Theme>
+      <AreaGrid :class="$style.grid"  :grid="grid"></AreaGrid>
       <Clear  :class="$style.Clear" ></Clear>
+      <TabMap :class="$style.TabMap" :maps="maps" ></TabMap>
   </div>
 </template>
 
@@ -19,7 +21,9 @@
    import Map from '../map/Map'
    import SecondMenu from '../part/SecondMenu'
    import Target from '../part/Target'
+   import AreaGrid from '../part/AreaGrid'
    import Theme from '../part/Theme'
+   import TabMap from '../part/TabMap'
    import Clear from '../part/Clear'
    import MapTool from '../toolbar/MapTool'
    import EditTool from '../toolbar/EditTool'
@@ -28,10 +32,11 @@
     export default {
         name: "Index",
         components:{
+            AreaGrid,
           SecondMenu,
           Head,
           Map,
-          MapTool,Center,Query,EditTool,Target,Theme,Clear
+          MapTool,Center,Query,EditTool,Target,Theme,Clear,AreaGrid,TabMap
         },
         data:function () {
          return{
@@ -41,7 +46,9 @@
              showEdit:false,
              editlist:config.edit,
              target:config.target,
-             theme:config.theme
+             theme:config.theme,
+             grid:config.areaGrid,
+             maps:config.maps
          }
         },
         computed:{
@@ -91,7 +98,7 @@
 
      /*pointer-events: none;*/
    }
-     .SecondMenu,.maptool,.center,.query,.EditTool,.Target,.Theme,.Clear{
+     .SecondMenu,.maptool,.center,.query,.EditTool,.Target,.Theme,.Clear,.grid,.TabMap{
          position: absolute;
          z-index: 999;
      }
@@ -127,13 +134,21 @@
     }
    .Theme{
 
-     left:40%;
-     top:30%
+     right:0.2%;
+     top:20%
    }
    .Clear{
 
      right:2%;
      top:80%
    }
+     .grid{
+         left:4%;
+         top:10%
+     }
+     .TabMap{
+         right:0.2%;
+         top:9%
+     }
  }
 </style>

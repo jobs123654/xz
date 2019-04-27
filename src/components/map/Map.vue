@@ -21,6 +21,9 @@
              bus.$on('queryByRect',this.queryByRect);
              bus.$on('queryByPoint',this.queryByPoint);
              bus.$on('clear',this.clear);
+           bus.$on('tabMap',this.tabMap);
+           bus.$on('addLayer',this.addLayer);
+           bus.$on('removeLayer',this.removeLayer);
              this.map.on(L.Draw.Event.CREATED, this.draw);
          },
         data:function(){
@@ -39,7 +42,8 @@
             ...mapState(
                 {
                     'result':'features',
-                     'queryParam':'queryParam'
+                     'queryParam':'queryParam',
+                     'currentLayer':'currentLayer'
                 }
                 )
         },
@@ -52,17 +56,28 @@
                   onEachFeature: function (feature, layer) {
                       let t=''
                       //quyu
-                      if (feature.properties.NAME){
-                          t="当前位置 " + feature.properties.NAME
+                      if (feature.properties.用地类型){
+                          t= that.result.year+ feature.properties.用地类型
                       }
-
                       layer.bindPopup(t);
+                      layer.setStyle({
+                        color:that.result.color,
+
+                        fillOpacity:'0.5'
+                      })
                       // if (this.result.feature.length==1){
                       //     this.flyTo(feature)
                       // }
-
                   }
-              }).addTo(this.map);
+              });
+
+              if (this.currentLayer){
+                  resultLayer.layerId=this.currentLayer;
+                  this.putCurrentLayer(null)
+              }
+
+              // resultLayer._leaflet_id=this.currentLayer
+              resultLayer.addTo(this.map)
 
           //    绘制结果
               this.result.features.map(e=>{
@@ -74,7 +89,9 @@
           }
         },
          methods:{
-             ...mapMutations(['setFeatures','clearFeatures','setQueryParam']),
+             ...mapMutations(['setFeatures','clearFeatures','setQueryParam',
+              'putCurrentLayer',
+             ]),
              //////////////////////////////////////////////////////////
            queryByRect(d){
              this.queryByJH(d,{
@@ -128,7 +145,9 @@
              //   参数传递
                  this.setQueryParam(item)
              },
-
+             drawPolygon(latlngs,color){
+               var polygon = L.polygon(latlngs, {color: color}).addTo(this.map);
+             },
             draw(e) {
               var type = e.layerType,layer=e.layer;
               this.editableLayers.addLayer(layer);
@@ -188,6 +207,23 @@
                      this.map.setZoom(this.option.option.zoom+4)
                  },1200)
              },
+
+             addLayer(item){
+                 var vectorLayer = L.supermap.imageMapLayer(item.url, {
+                     layersID:item.id,
+                     returnAttributes: true,
+                 }).addTo(this.map);
+             },
+             removeLayer(item){
+
+                 this.map.eachLayer(e=>{
+                     if (e.layerId===item.id){
+
+                         this.map.removeLayer(e)
+                     }
+                 })
+
+             },
              querybuffer(item){
                  var options = {
                      position: 'topleft',
@@ -230,10 +266,15 @@
              // 初始化地图信息
              this.map = L.map(this.$el, this.option.option);
              // 添加图层
-             this.baseLayer= L.supermap.tiledMapLayer(this.option.url, {noWrap: true}).addTo(this.map);
+             this.baseLayer= L.supermap.tiledMapLayer(this.option.url, {noWrap: true});
+             this.baseLayer.addTo(this.map)
 
              this.editableLayers = new L.FeatureGroup();
 
+           },
+           tabMap(item){
+             this.baseLayer= L.supermap.tiledMapLayer(item.url, {noWrap: true});
+             this.baseLayer.addTo(this.map)
            },
             initMeasure(){
               this.map.addLayer(this.editableLayers);
@@ -364,6 +405,7 @@
              },
          //    sql
              queryBySql(item){
+                 this.putCurrentLayer(item.id)
                  var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
                      queryParameter: {
                          name: `${db.dataSetName}@${item.dataSourceName}`,
@@ -375,7 +417,10 @@
                  L.supermap.featureService(this.option.dataUrl).getFeaturesBySQL(sqlParam,function (serviceResult) {
                      // 获取服务器返回的结果
                      var featuers = serviceResult.result.features
-                     this.setFeatures(featuers)
+                   featuers.color=item.color
+                   featuers.year=item.dataSetName+'年'
+                   this.setFeatures(featuers)
+
                  }.bind(this));
              },
          //    query by geos

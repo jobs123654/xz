@@ -5,13 +5,13 @@ export default {
   map:{
     option:{
       crs:L.CRS.EPSG4326,
-        center: [20, 80],//[117.67 , 39.65],
-        maxZoom: 18,
-        zoom: 2,
+        center: [ 39.56,118.34],//[117.67 , 39.65],
+        // maxZoom: 10,
+        zoom: 8,
        measureControl:true,
     },
-      url:"http://support.supermap.com.cn:8090/iserver/services/map-world/rest/maps/World",
-      dataUrl:"http://support.supermap.com.cn:8090/iserver/services/data-world/rest/data",
+      url:"http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市",
+      dataUrl:"http://101.200.50.47:8090/iserver/services/data-00/rest/data",
       // url:"http://localhost:8090/iserver/services/map-hebei/rest/maps/base",
       // dataUrl:"http://localhost:8090/iserver/services/data-hebei/rest/data",
   },
@@ -49,6 +49,12 @@ export default {
       ],
       event:''
     },
+      {
+          name:'区域网格',
+          children:[
+          ],
+          event:'areaGridShow'
+      },
     {
       name:'形态分析',
       children:[
@@ -68,14 +74,12 @@ export default {
       ],
       event:'xingtai'
     },
+
     // {
-    //   name:'城市空间量算',
+    //   name:'专题地图',
+    //   children:[],
+    //   event:'themeShow'
     // },
-    {
-      name:'专题地图',
-      children:[],
-      event:'themeShow'
-    },
     {
       name:'个人信息',
       children:[],
@@ -169,9 +173,11 @@ export default {
    },
 //   查询
    citysQuery:{
-     dataSourceName:'World',
-     dataSetName:'Countries',//Capitals
+     dataSourceName:'11111111111',
+     dataSetName:'',//Capitals
    },
+
+
 //专题图
   theme:{
     props:[
@@ -185,6 +191,137 @@ export default {
     fillColor:'#CCFFFF',
     strokeColor:'#CCFF00',
     opacity:'1',
-  }
+  },
+//区域网格
+    areaGrid:[
+        {
+            year:'2019',
+            color:'red',
+            type:[
+                {
 
+                    name:'居住用地',
+                    url:'http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市2000',
+                    checked:false,
+                },
+                {
+                    name:'公共设施用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'商业用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'工业用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'道路交通用地',
+                    url:'',
+                    checked:false,
+                },
+
+            ]
+        },
+        {
+            year:'2000',
+            color:'blue',
+            type:[
+                {
+
+                    name:'居住用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'公共服务用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'公共设施用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'工业用地',
+                    url:'',
+                    checked:false,
+
+                },
+                {
+                    name:'行政办公用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'教育用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'公园',
+                    url:'',
+                    checked:false,
+                },
+
+            ]
+        },
+        {
+            year:'1975',
+            color:'yellow',
+            type:[
+                {
+
+                    name:'居住用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'公共设施用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'商业用地',
+                    url:'',
+                    checked:false,
+                },
+                {
+                    name:'工业用地',
+                    url:'',
+                    checked:false,
+
+                },
+                {
+                    name:'道路交通用地',
+                    url:'',
+                    checked:false,
+                },
+
+            ]
+        },
+    ],
+    maps:[
+        {
+            name:'标准视图',
+            url:'http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市'
+        },
+        {
+            name:'2019年',
+            url:'http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市2019'
+        },
+        {
+            name:'2000年',
+            url:'http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市2000'
+        },
+        {
+            name:'1975年',
+            url:'http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市1975'
+        },
+    ]
 }

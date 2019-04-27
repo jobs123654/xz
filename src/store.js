@@ -17,7 +17,8 @@ export default new Vuex.Store({
     distance:0,
     area:0,
     features:[],
-    queryParam:{}
+    queryParam:{},
+    currentLayer:{},
   },
   mutations:{
     setSecondMenuList(state,v){
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     setQueryParam(state,v){
         state.queryParam=v;
+    },
+    putCurrentLayer(state,v){
+      state.currentLayer=v;
     },
     setFeatures(state,v){
       state.features=v;
