@@ -30,7 +30,7 @@
 
 <script>
 
-    import EditTool from '../toolbar/EditTool'
+    import EditTool from './EditTool'
     export default {
         name: "Query",
 

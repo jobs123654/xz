@@ -1,10 +1,6 @@
 <template>
     <div class="panel panel-default col-md-2" v-show="visible">
-<!--        <div class="panel-heading" style="display: flex;">-->
-<!--            <span style="flex: 70%">底图切换</span>-->
 
-<!--            <span style="cursor: pointer;" @click="close">&times;</span>-->
-<!--        </div>-->
         <div class="panel-body">
               <div>
                 <div class="form-group">
@@ -27,13 +23,22 @@
             },
             data(){
                 return{
-                 visible:true,
+                 visible:false,
                     item:this.maps[0]
                 }
             },
           components:{
 
           },
+      mounted(){
+        bus.$on('showTabMap',e=>{
+          this.visible=!this.visible
+        });
+        bus.$on('closeTabMap',e=>{
+          this.visible=false
+        });
+
+      },
         methods:{
              change(){
                bus.$emit('tabMap',this.item);

@@ -32,22 +32,19 @@ export default {
         {
           name:'地图平移',
         },
+        {
+          name:'视图切换',
+        },
 
       ],
-      event:''
+      event:'showTool'
     },
     {
-      name:'数据管理',
+      name:'在线编辑',
       children:[
-        {
-          name:'数据检索',
-        },
-        {
-          name:'在线编辑',
-        },
 
       ],
-      event:''
+      event:'showEdit'
     },
       {
           name:'区域网格',
@@ -88,27 +85,62 @@ export default {
 
   ],
 //    在线编辑
-    edit:[
-        {
-          name:'dot',
-            title:'点选',
-            _class:'btn btn-default glyphicon glyphicon-hand-up'
-        },
-        {
-            name:'more',
-            title:'批量选择',
-            _class:'btn btn-default glyphicon glyphicon-link'
-        },
-        {
-            name:'property',
-            title:'属性',
-            _class:'btn btn-default glyphicon glyphicon-pencil'
-        },{
-            name:'ok',
-            title:'完成',
-            _class:'btn btn-default glyphicon glyphicon-ok'
-        },
-    ],
+    edit: {
+       tools:[
+         {
+           name:'dot',
+           title:'点选',
+           _class:'btn btn-default glyphicon glyphicon-hand-up',
+           event:'queryByPoint',
+         },
+         {
+           name:'more',
+           title:'画面',
+           _class:'btn btn-default glyphicon glyphicon-link',
+           event:'drawPolygon',
+         },
+         {
+           name:'property',
+           title:'属性',
+           _class:'btn btn-default glyphicon glyphicon-pencil',
+           event:'',
+         }
+       ],
+       areas:[
+         {
+
+           name:'选择用地类型',
+
+           checked:false,
+         },
+         {
+
+           name:'居住用地',
+
+           checked:false,
+         },
+         {
+           name:'公共设施用地',
+
+           checked:false,
+         },
+         {
+           name:'商业用地',
+
+           checked:false,
+         },
+         {
+           name:'工业用地',
+
+           checked:false,
+         },
+         {
+           name:'道路交通用地',
+
+           checked:false,
+         },
+       ]
+    },
 //   指标计算
    target:{
      title:'指标分析',
@@ -201,7 +233,7 @@ export default {
                 {
 
                     name:'居住用地',
-                    url:'http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市2000',
+                    url:'',
                     checked:false,
                 },
                 {

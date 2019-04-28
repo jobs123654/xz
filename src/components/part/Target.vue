@@ -137,7 +137,9 @@
         }
       },
       mounted(){
-          bus.$on('xingtai',this.show)
+          bus.$on('xingtai',e=>{
+            this.visible=!this.visible
+          })
       },
       methods:{
         selectItem(){

@@ -5,7 +5,7 @@
       <SecondMenu :class="$style.SecondMenu"></SecondMenu>
       <Center :class="$style.center" :user="user"></Center>
       <Query :class="$style.query" ref="query"></Query>
-      <EditTool :class="$style.EditTool" :editlist="editlist" v-show="showEdit" ref="edit"></EditTool>
+      <EditTool :class="$style.EditTool" :edit="editlist" v-show="showEdit" ref="edit"></EditTool>
       <Target :class="$style.Target" :target="target"></Target>
       <Theme :class="$style.Theme"  :theme="theme"></Theme>
       <AreaGrid :class="$style.grid"  :grid="grid"></AreaGrid>
@@ -25,8 +25,8 @@
    import Theme from '../part/Theme'
    import TabMap from '../part/TabMap'
    import Clear from '../part/Clear'
-   import MapTool from '../toolbar/MapTool'
-   import EditTool from '../toolbar/EditTool'
+
+   import EditTool from '../part/EditTool'
    import Center from '../user/Center'
    import db from '../config/db'
     export default {
@@ -36,7 +36,7 @@
           SecondMenu,
           Head,
           Map,
-          MapTool,Center,Query,EditTool,Target,Theme,Clear,AreaGrid,TabMap
+        Center,Query,EditTool,Target,Theme,Clear,AreaGrid,TabMap
         },
         data:function () {
          return{
@@ -125,8 +125,8 @@
          top:20%
      }
      .EditTool{
-         left:87%;
-         top:10%
+         right:0.2%;
+         top:9%
      }
    .Target{
      left:30%;

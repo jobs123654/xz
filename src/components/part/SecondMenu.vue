@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-show="visible">
       <ul class="list-group">
         <li class="list-group-item" v-for="(item,i) in list" @click="select(item,i)" :class="key==i?'height':'normal'">
           {{item.name}}
@@ -18,6 +18,7 @@
        data:function(){
           return{
             key:null,
+            visible:false
           }
        },
        methods:{
@@ -38,21 +39,25 @@
                 case '空间量算':
                  map.initMeasure()
                  break;
-                 case '数据检索':
-                     this.$parent.$refs.query.show()
-                     break;
+                 case '视图切换':
+                 bus.$emit('showTabMap')
+                 break;
 
-                 case '清除':
+               case '清除':
                      map.clear()
                      break;
-                 case '在线编辑':
-                     this.$parent.showEdit=!this.$parent.showEdit
-                     break;
-
 
              }
           }
        },
+      mounted(){
+        bus.$on('showTool',e=>{
+          this.visible=!this.visible
+        })
+        bus.$on('closeTool',e=>{
+          this.visible=false
+        })
+      },
       computed:{
         items(){
           return this.$store.state.SecondMenuList

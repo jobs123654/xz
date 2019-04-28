@@ -16,14 +16,15 @@
         },
          mounted:function(){
           this.init()
-             bus.$on('clear',this.clear);
-             bus.$on('queryBySql',this.queryBySql);
-             bus.$on('queryByRect',this.queryByRect);
-             bus.$on('queryByPoint',this.queryByPoint);
-             bus.$on('clear',this.clear);
+           bus.$on('clear',this.clear);
+           bus.$on('queryBySql',this.queryBySql);
+           bus.$on('queryByRect',this.queryByRect);
+           bus.$on('queryByPoint',this.queryByPoint);
+           bus.$on('clear',this.clear);
            bus.$on('tabMap',this.tabMap);
            bus.$on('addLayer',this.addLayer);
            bus.$on('removeLayer',this.removeLayer);
+           bus.$on('drawPolygon',this.drawPolygon);
              this.map.on(L.Draw.Event.CREATED, this.draw);
          },
         data:function(){
@@ -59,10 +60,12 @@
                       if (feature.properties.用地类型){
                           t= that.result.year+ feature.properties.用地类型
                       }
+                      if (this.queryParam.key.indexOf('新增面')>-1){
+
+                      }
                       layer.bindPopup(t);
                       layer.setStyle({
                         color:that.result.color,
-
                         fillOpacity:'0.5'
                       })
                       // if (this.result.feature.length==1){
@@ -113,6 +116,7 @@
                circlemarker:false,
              })
            },
+
              query(){
                  this.queryByIds([246, 247])
              },
@@ -145,8 +149,15 @@
              //   参数传递
                  this.setQueryParam(item)
              },
-             drawPolygon(latlngs,color){
-               var polygon = L.polygon(latlngs, {color: color}).addTo(this.map);
+             drawPolygon(d){
+               this.queryByJH(d,{
+                 polyline: false,
+                 polygon: true,
+                 circle: false,
+                 marker: false,
+                 rectangle:false,
+                 circlemarker:false,
+               })
              },
             draw(e) {
               var type = e.layerType,layer=e.layer;
@@ -423,6 +434,9 @@
 
                  }.bind(this));
              },
+               dotQuery(){
+
+               },
          //    query by geos
              queryBYGeos(item){
 // 设置几何查询范围
@@ -430,10 +444,10 @@
 // 设置任意几何范围查询参数
                  var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
                      queryParameter: {
-                         name: `${db.dataSetName}@${item.dataSourceName}`,
+                         name: `${item.dataSetName}@${item.dataSourceName}`,
                          attributeFilter: item.attr
                      },
-                     datasetNames: [`${db.dataSourceName}:${item.dataSetName}`],
+                     datasetNames: [`${item.dataSourceName}:${item.dataSetName}`],
                      geometry: item.p,
                      spatialQueryMode: "INTERSECT" // 相交空间查询模式
                  });

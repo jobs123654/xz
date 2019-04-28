@@ -30,7 +30,7 @@
         },
         mounted(){
             bus.$on('areaGridShow',e=>{
-                this.visible=true
+                this.visible=!this.visible
             })
             bus.$on('areaGridClose',e=>{
                  this.visible=false
