@@ -24,8 +24,15 @@
            bus.$on('tabMap',this.tabMap);
            bus.$on('addLayer',this.addLayer);
            bus.$on('removeLayer',this.removeLayer);
+           bus.$on('initMeasure',this.initMeasure)
+           bus.$on('addScale',this.addScale)
+           bus.$on('addMinimap',this.addMinimap)
+
+           bus.$on('clear',this.clear)
+
            bus.$on('drawPolygon',this.drawPolygon);
-             this.map.on(L.Draw.Event.CREATED, this.draw);
+
+             this.map.on('draw:created', this.drawFeature);
          },
         data:function(){
           return{
@@ -36,16 +43,17 @@
             editableLayers:null,
             drawControl:null,
               queryControl:null,
-              featureGroup:[]
+              featureGroup:[],
+            measureTool:null
           }
         },
         computed:{
             ...mapState(
-                {
-                    'result':'features',
-                     'queryParam':'queryParam',
-                     'currentLayer':'currentLayer'
-                }
+                  {
+                      'result':'features',
+                       'queryParam':'queryParam',
+                       'currentLayer':'currentLayer'
+                  }
                 )
         },
         watch:{
@@ -60,7 +68,7 @@
                       if (feature.properties.用地类型){
                           t= that.result.year+ feature.properties.用地类型
                       }
-                      if (this.queryParam.key.indexOf('新增面')>-1){
+                      if (this.queryParam&&this.queryParam.key.indexOf('新增面')>-1){
 
                       }
                       layer.bindPopup(t);
@@ -68,9 +76,7 @@
                         color:that.result.color,
                         fillOpacity:'0.5'
                       })
-                      // if (this.result.feature.length==1){
-                      //     this.flyTo(feature)
-                      // }
+
                   }
               });
 
@@ -93,7 +99,7 @@
         },
          methods:{
              ...mapMutations(['setFeatures','clearFeatures','setQueryParam',
-              'putCurrentLayer',
+              'putCurrentLayer','setCurrentPolygon'
              ]),
              //////////////////////////////////////////////////////////
            queryByRect(d){
@@ -148,6 +154,7 @@
                      this.map.addControl(this.queryControl);
              //   参数传递
                  this.setQueryParam(item)
+
              },
              drawPolygon(d){
                this.queryByJH(d,{
@@ -159,58 +166,34 @@
                  circlemarker:false,
                })
              },
-            draw(e) {
-              var type = e.layerType,layer=e.layer;
-              this.editableLayers.addLayer(layer);
-              let p=''
-              if (type==='marker'){
-                // p=L.polygon(layer.editing._marker, {})
-                p=layer.editing._marker
-              } else if(type==='polygon'){
-                p=L.polygon(layer.editing._marker, {})//
-              }else if(type==='rectangle'){
-                let bounds=func.lnglatToNormal(layer._latlngs[0])
-                p=L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(this.map)
-              }
-              this.queryParam.p=p;
 
-              this.queryBYGeos(this.queryParam)
-            },
+           drawFeature(e){
+             var type = e.layerType,
+               layer = e.layer,queryParam=this.queryParam;
+             this.editableLayers.addLayer(layer);
+             let p=null
+             switch (queryParam.key) {
+               //測量：測距、測面
+                 case 'measure':
+                   if (type === 'polygon') {
+                     p=L.polygon(layer.editing.latlngs[0], {})
+                     this.getArea(p)
+                   }
+                 break;
+                 case 'query':
+                   if (type === 'polygon') {
+                     p=L.polygon(layer.editing.latlngs[0],  {color: queryParam.color}).addTo(this.map)
+                     this.setCurrentPolygon(p)
+                   }
 
-             editFeature(){
-                 var options = {
-                     position: 'topleft',
-                     draw: {
-                         polyline: false,
-                         polygon: true,
-                         circle: false,
-                         marker: false,
-                         rectangle:false,
-                         circlemarker:false,
-                     },
-                     edit: {
-                         featureGroup: this.editableLayers,
-                         remove: true
-                     }
-                 };
-                 if (this.editControl){
-                     this.editControl=null
-                 } else{
-                     this.editControl = new L.Control.Draw(options);
-                     this.map.addControl(this.editControl);
-                 }
-                 this.map.on(L.Draw.Event.CREATED, function (e) {
-                     var type = e.layerType,
-                         layer = e.layer;
-                     if (type === 'polygon') {
+                 break;
 
-                     }
-                     this.editableLayers.addLayer(layer);
-                     let p=L.polygon(layer.editing.latlngs[0], {})
-                     item.p=p;
-                     this.commit(item)
-                 }.bind(this));
-             },
+
+             }
+
+           },
+
+
              flyTo(e){
                  let o=e.geometry.coordinates
                this.map.flyTo([o[1],o[0]])
@@ -288,15 +271,8 @@
              this.baseLayer.addTo(this.map)
            },
             initMeasure(){
-              this.map.addLayer(this.editableLayers);
-              /*var MyCustomMarker = L.Icon.extend({
-                options: {
-                  shadowUrl: null,
-                  iconAnchor: new L.Point(12, 12),
-                  iconSize: new L.Point(24, 24),
-                  iconUrl: 'link/to/image.png'
-                }
-              });*/
+
+               this.map.addLayer(this.editableLayers);
               var options = {
                 position: 'topleft',
                 draw: {
@@ -313,27 +289,16 @@
                 }
               };
               if (this.drawControl){
-                  this.map.removeControl(this.drawControl);
-                  this.drawControl=null
+                this.map.removeControl(this.drawControl);
+                this.drawControl=null
               } else{
                 this.drawControl = new L.Control.Draw(options);
                 this.map.addControl(this.drawControl);
               }
 
-              this.map.on(L.Draw.Event.CREATED, function (e) {
-                  var type = e.layerType,
-                      layer = e.layer;
-
-
-                  this.editableLayers.addLayer(layer);
-                  if (type === 'polygon') {
-                      let p=L.polygon(layer.editing.latlngs[0], {})
-                      this.getArea(p)
-                  }
-
-              }.bind(this));
-              ///new
-              //   this.map.off()
+              this.setQueryParam({
+                key:'measure'
+              })
 
             },
              clear(){
@@ -345,6 +310,8 @@
                      }
 
                  }.bind(this));
+                  this.setQueryParam(null)
+                  this.setCurrentPolygon(null)
              },
              //.............................
             addScale(){
@@ -481,11 +448,12 @@
          },
     //    在线编辑
         commit(marker){
-            // marker = marker.toGeoJSON();
-            // marker.properties = {POP: 1, CAPITAL: 'test'};
+          let queryParam=this.queryParam
+            marker = marker.toGeoJSON();
+            marker.properties = item.properties;
             var addFeatureParams = new SuperMap.EditFeaturesParameters({
-                dataSourceName: "World",
-                dataSetName: "Capitals",
+                dataSourceName: queryParam.dataSourceName,
+                dataSetName: queryParam.dataSetName,
                 features: marker,
                 editType: "add",
                 returnContent: true
