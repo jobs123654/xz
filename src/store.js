@@ -19,6 +19,7 @@ export default new Vuex.Store({
     features:[],
     queryParam:{},
     currentLayer:{},
+    currentPolygon:{}
   },
   mutations:{
     setSecondMenuList(state,v){
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     setQueryParam(state,v){
         state.queryParam=v;
+    },
+    setCurrentPolygon(state,v){
+      state.currentPolygon=v;
     },
     putCurrentLayer(state,v){
       state.currentLayer=v;

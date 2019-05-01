@@ -24,30 +24,10 @@
        methods:{
 
           select:function (item,i) {
-             let map=this.$parent.$refs.map
+
              this.key=i
-             switch (item.name) {
-               case '比例尺':
-                 map.addScale()
-                 break;
-               case '地图鹰眼':
-                 map.addMinimap()
-                 break;
-               case '地图平移':
-                 map.addPan()
-                 break;
-                case '空间量算':
-                 map.initMeasure()
-                 break;
-                 case '视图切换':
-                 bus.$emit('showTabMap')
-                 break;
 
-               case '清除':
-                     map.clear()
-                     break;
-
-             }
+            bus.$emit(item.event)
           }
        },
       mounted(){

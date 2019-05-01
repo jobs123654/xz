@@ -11,7 +11,7 @@
                    <!-- <Select v-model="years" style="width:200px">
                         <Option v-for="item in years" :value="item" :key="item">{{ item }}</Option>
                     </Select>-->
-                    <lable>{{item.year}}年</lable>
+                    <label>{{item.year}}年</label>
 
                     <div class="input-group"  >
                         <Checkbox v-for="j in item.type"  @on-change="select(j)" :value="j.name" :key="j.id" >{{j.name}}</Checkbox>
@@ -30,6 +30,7 @@
         },
         mounted(){
             bus.$on('areaGridShow',e=>{
+
                 this.visible=!this.visible
             })
             bus.$on('areaGridClose',e=>{

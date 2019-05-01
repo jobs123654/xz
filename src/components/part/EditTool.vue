@@ -87,7 +87,8 @@
                  bus.$emit(i.event,{
                    dataSourceName:config.citysQuery.dataSourceName,
                    dataSetName:'唐山市'+this.year,
-                   key:'新增面'
+                   key:'query',
+                   color:'blue'
                  })
                }
 

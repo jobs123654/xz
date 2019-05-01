@@ -21,19 +21,28 @@ export default {
       name:'基础操作',
       children:[
         {
-          name:'空间量算'
+          name:'空间量算',
+          event:'initMeasure',
         },
         {
           name:'比例尺',
+          event:'addScale',
         },
         {
           name:'地图鹰眼',
+          event:'addMinimap',
         },
         {
           name:'地图平移',
+          event:'addPan',
         },
         {
           name:'视图切换',
+          event:'showTabMap',
+        },
+        {
+          name:'清除',
+          event:'clear',
         },
 
       ],
