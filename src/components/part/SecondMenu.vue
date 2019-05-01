@@ -18,7 +18,8 @@
        data:function(){
           return{
             key:null,
-            visible:false
+            visible:false,
+
           }
        },
        methods:{

@@ -37,7 +37,7 @@
   </div>
 </template>
 <script>
-  import config from '../config/config'
+  import config from '../../config/config'
     export default {
         name: "Login",
        data:function(){

@@ -10,23 +10,30 @@
                  <option v-for="item in years" :value="item" :key="item">{{item}}年</option>
                </select>
              </div>
-             <div class="form-group">
-               <select  class="form-control" v-model="type" >
-                 <option v-for="item in edit.areas" :value="item" :key="item.name">{{item.name}}</option>
-               </select>
+             <div v-show="disabled">
+               <div class="form-group">
+                 <select  class="form-control" v-model="type" >
+                   <option v-for="item in edit.areas" :value="item" :key="item.name">{{item.name}}</option>
+                 </select>
+               </div>
+               <div class="form-group">
+                 <select  class="form-control" v-model="action" >
+                   <option v-for="item in edit.actions" :value="item" :key="item.name">{{item.name}}</option>
+                 </select>
+               </div>
+               <div class="form-group">
+                 <input type="email" class="form-control" placeholder="备注"   v-model="other">
+               </div>
+
+               <div class="form-group" v-if="props.length" v-for="item in props" :key="item.name" >
+                 <input type="text" class="form-control" :placeholder="item.name"  v-model="item.value"  >
+               </div>
+
+               <div class="form-group">
+                 <span class="btn glyphicon glyphicon-ok" @click="ok" title="完成"></span>&nbsp;&nbsp;<span class="glyphicon glyphicon-plus btn " @click="addPro" title="添加属性"></span>
+                 &nbsp;&nbsp;<span class="btn glyphicon glyphicon-trash " @click="delPro" title="删除属性"></span>
+               </div>
              </div>
-           <div class="form-group">
-             <input type="email" class="form-control" placeholder="备注"  v-model="other">
-           </div>
-
-           <div class="form-group" v-if="props.length" v-for="item in props" :key="item.name">
-             <input type="text" class="form-control" :placeholder="item.name"  v-model="item.value">
-           </div>
-
-           <div class="form-group">
-             <span class="btn glyphicon glyphicon-ok" @click="ok" title="完成"></span>&nbsp;&nbsp;<span class="glyphicon glyphicon-plus btn " @click="addPro" title="添加属性"></span>
-             &nbsp;&nbsp;<span class="btn glyphicon glyphicon-trash " @click="delPro" title="删除属性"></span>
-           </div>
          </div>
 
      </div>
@@ -49,7 +56,9 @@
                 year:new Date().getFullYear(),
                 type:this.edit.areas[0],
                 props:[],
-                other:''
+                other:'',
+                action:null,
+                disabled:true,
             }
         },
            mounted(){
@@ -77,19 +86,35 @@
           },
            select:function (i) {
 
+               //编辑属性
                if (i.name.indexOf('pro')>-1){
                    this.showPro=!this.showPro
+                   this.disabled=true
                }
-              else if (i.name.indexOf('ok')>-1){
+               else if (i.name.indexOf('more')>-1){
                    //完成编辑
-                   this.showPro=false
+                 this.disabled=true
+                 bus.$emit(i.event,{
+                   dataSourceName:config.citysQuery.dataSourceName,
+                   dataSetName:'唐山市'+this.year,
+                   key:'edit',
+                   color:'blue',
+                   obj:{}
+                 });
+                 this.showPro=false
+
                }else{
+                 this.showPro=true
+               // 点选
+                 this.disabled=false
                  bus.$emit(i.event,{
                    dataSourceName:config.citysQuery.dataSourceName,
                    dataSetName:'唐山市'+this.year,
                    key:'query',
-                   color:'blue'
-                 })
+                   attr:`用地类型='${this.type.name}'`,
+                   color:'blue',
+
+                 });
                }
 
                // bus.$emit('control',i)
@@ -114,7 +139,6 @@
                 alert('属性名称无效!');
                 return
               }
-
               this.props.splice(index,1)
             }
 
@@ -127,8 +151,19 @@
              obj['year']=this.year
              obj['type']=this.type
              obj['other']=this.other
-            this.$Message.info("添加成功！");
-
+             let param={
+               dataSourceName:config.citysQuery.dataSourceName,
+               dataSetName:'唐山市'+this.year,
+               action:this.action,
+             }
+             if (this.action.title.indexOf('add')>-1||this.action.title.indexOf('update')>-1){
+                param. properties={
+                 用地类型:this.type.name
+               }
+             }else {
+               param.attr = `用地类型=='${this.type.name}'`
+             }
+            bus.$emit('commit', param);
           }
 
         }

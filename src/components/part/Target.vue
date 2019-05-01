@@ -39,7 +39,7 @@
           <div class="col-sm-10">
             <CheckboxGroup v-model="checklist">
 
-              <Checkbox  v-for="i in citys" :key="i.id" :label="i.name"></Checkbox>
+              <Checkbox  v-for="(i,id) in citys" :key="id" :label="i.name"></Checkbox>
             </CheckboxGroup>
 
           </div>
@@ -47,13 +47,13 @@
           <div class="col-sm-10">
             <div class="checkbox" style="margin-left: 35%">
 
-              <label>
+               <!--<label>-->
 
-                <input type="checkbox" @click="checkAll=!checkAll" v-model="checkAll"> 全选
-              </label>
-              <label>
-                <input type="checkbox" @click="cancelAll=!cancelAll" v-model="cancelAll"> 反选
-              </label>
+                <!--<input type="checkbox" @click="checkAll=!checkAll" v-model="checkAll"> 全选-->
+              <!--</label>-->
+              <!--<label>-->
+                <!--<input type="checkbox" @click="cancelAll=!cancelAll" v-model="cancelAll"> 反选-->
+              <!--</label>-->
               <label>
                 <input type="checkbox"  v-model="showStyle"> 显示样式管理器
               </label>
@@ -130,9 +130,9 @@
         },
         showStyle(){
           if (this.showStyle){
-            bus.$emit('themeShow')
+            bus.$emit('styleShow')
           } else{
-            bus.$emit('themeClose')
+            bus.$emit('styleClose')
           }
         }
       },

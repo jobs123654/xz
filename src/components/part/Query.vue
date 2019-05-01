@@ -10,10 +10,14 @@
                 <div class="form-group">
                     <input type="email" class="form-control"  id="exampleInputEmail1" placeholder="请输入区域ID/或名称">
                 </div>
-                <div class="form-group">
-                    <input type="checkbox"  id="exampleInputPassword1" v-model="isEdit"  placeholder="">即时编辑
-                </div>
-
+                <!--<div class="form-group">-->
+                  <!--<select name="" v-model="type" class="form-control" id="">-->
+                    <!--<option v-for="item in types" :value="item">{{item.name}}</option>-->
+                  <!--</select>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                  <!--<input type="email" class="form-control"  id="exampleInputEmail1" placeholder="请输入区域ID/或名称">-->
+                <!--</div>-->
                 <hr>
                 <div class="form-group" >
                     <a href="#" class="glyphicon glyphicon-map-marker btn" @click="query(0)" title="点选查询"></a>
@@ -41,6 +45,8 @@
                     more:false,
                      propertyPanel:false,
                      isEdit:false,
+                     types:config.edit.areas,
+                     type:config.edit.areas[0],
                 }
             },
           components:{
@@ -54,6 +60,11 @@
              }
            }
       },
+      mounted(){
+           bus.$on('showQuery',e=>{
+             this.visible=!this.visible
+           })
+        },
         methods:{
              ok(){
                bus.$emit('queryBySql',{

@@ -1,13 +1,14 @@
 <template>
   <div :class="$style.root">
      <Head :class="$style.item" :nav="nav" ></Head>
-      <Map :class="$style.item" :option="map" ref="map" :db="dbConfig"></Map>
+      <Map :class="[$style.item]" :option="map" ref="map" :db="dbConfig"></Map>
       <SecondMenu :class="$style.SecondMenu"></SecondMenu>
       <Center :class="$style.center" :user="user"></Center>
       <Query :class="$style.query" ref="query"></Query>
       <EditTool :class="$style.EditTool" :edit="editlist" v-show="showEdit" ref="edit"></EditTool>
       <Target :class="$style.Target" :target="target"></Target>
       <Theme :class="$style.Theme"  :theme="theme"></Theme>
+        <Style :class="$style.Style" ></Style>
       <AreaGrid :class="$style.grid"  :grid="grid"></AreaGrid>
       <Clear  :class="$style.Clear" ></Clear>
       <TabMap :class="$style.TabMap" :maps="maps" ></TabMap>
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-   import config from '../config/config'
+   import config from '../../config/config'
    import Head from '../part/Head'
    import Query from '../part/Query'
    import Map from '../map/Map'
@@ -27,6 +28,7 @@
    import Clear from '../part/Clear'
 
    import EditTool from '../part/EditTool'
+   import Style from '../part/Style'
    import Center from '../user/Center'
    import db from '../config/db'
     export default {
@@ -36,7 +38,7 @@
           SecondMenu,
           Head,
           Map,
-        Center,Query,EditTool,Target,Theme,Clear,AreaGrid,TabMap
+        Center,Query,EditTool,Target,Theme,Clear,AreaGrid,TabMap,Style
         },
         data:function () {
          return{
@@ -48,7 +50,8 @@
              target:config.target,
              theme:config.theme,
              grid:config.areaGrid,
-             maps:config.maps
+             maps:config.maps,
+             height:document.documentElement.clientHeight
          }
         },
         computed:{
@@ -98,7 +101,7 @@
 
      /*pointer-events: none;*/
    }
-     .SecondMenu,.maptool,.center,.query,.EditTool,.Target,.Theme,.Clear,.grid,.TabMap{
+     .SecondMenu,.maptool,.center,.query,.EditTool,.Target,.Theme,.Clear,.grid,.TabMap,.Style{
          position: absolute;
          z-index: 999;
      }
@@ -130,7 +133,7 @@
      }
    .Target{
      left:30%;
-     top:10%
+     top:20%
     }
    .Theme{
 
@@ -146,7 +149,7 @@
          left:4%;
          top:10%
      }
-     .TabMap{
+     .TabMap,.Style{
          right:0.2%;
          top:9%
      }

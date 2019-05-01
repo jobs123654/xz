@@ -44,7 +44,6 @@ export default {
           name:'清除',
           event:'clear',
         },
-
       ],
       event:'showTool'
     },
@@ -81,11 +80,11 @@ export default {
       event:'xingtai'
     },
 
-    // {
-    //   name:'专题地图',
-    //   children:[],
-    //   event:'themeShow'
-    // },
+    {
+      name:'专题地图',
+      children:[],
+      event:'themeShow'
+    },
     {
       name:'个人信息',
       children:[],
@@ -148,7 +147,21 @@ export default {
 
            checked:false,
          },
-       ]
+       ],
+      actions:[
+        {
+          name:'新增',
+          title:'add',
+        },
+        {
+          name:'更新',
+          title:'update',
+        },
+        {
+          name:'删除',
+          title:'delete',
+        },
+      ]
     },
 //   指标计算
    target:{
@@ -197,19 +210,61 @@ export default {
        },
        {
          id:'4',
-         name:'丰润区',
+         name:'曹妃甸区',
          isChecked:false
        },
        {
          id:'5',
-         name:'滦南县',
+         name:'玉田县',
          isChecked:false
        },
        {
          id:'6',
-         name:'唐海县',
+         name:'遵化县',
          isChecked:false
        },
+       {
+         id:'3',
+         name:'迁西县',
+         isChecked:false
+       },
+       {
+         id:'4',
+         name:'迁安市',
+         isChecked:false
+       },
+       {
+         id:'5',
+         name:'丰润区',
+         isChecked:false
+       },
+       {
+         id:'6',
+         name:'开平区',
+         isChecked:false
+       },
+
+       {
+         id:'5',
+         name:'乐亭县',
+         isChecked:false
+       },
+       {
+         id:'6',
+         name:'滦州市',
+         isChecked:false
+       },
+       {
+         id:'1',
+         name:'路南区',
+         isChecked:false
+       },
+       {
+         id:'2',
+         name:'古冶区',
+         isChecked:false
+       },
+
      ],
    },
 //   查询
@@ -221,13 +276,31 @@ export default {
 
 //专题图
   theme:{
+    dataSetName:'区县',
+    key:'专题',
+    field:'区域',
     props:[
       {
-        name:'属性1',
+        name:`人口（万）`,
+        color:'yellow',
+        attr:'人口（万）>0'
       },
       {
-        name:'属性2',
+        name:'人均年收入（元）_1',
+        color:'yellow',
+        attr:'人均年收入（元）_1'
       },
+      {
+        name:'企业数量（个）',
+        color:'yellow',
+        attr:'企业数量（个）>0'
+      },
+
+      // {
+      //   name:'TEST',
+      //   color:'yellow',
+      //   attr:'test>0'
+      // },
     ],
     fillColor:'#CCFFFF',
     strokeColor:'#CCFF00',
@@ -238,6 +311,7 @@ export default {
         {
             year:'2019',
             color:'red',
+            id:'2019',
             type:[
                 {
 
@@ -271,6 +345,7 @@ export default {
         {
             year:'2000',
             color:'blue',
+          id:'2000',
             type:[
                 {
 
@@ -315,6 +390,7 @@ export default {
         {
             year:'1975',
             color:'yellow',
+          id:'1975',
             type:[
                 {
 
