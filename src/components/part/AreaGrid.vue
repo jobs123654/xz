@@ -55,7 +55,7 @@
         data(){
             return{
                 src:[],
-                visible:true,
+                visible:false,
                 areas:[],
                 years:this.grid.filter(e=>e.year),
                 item:{},
