@@ -169,12 +169,15 @@ export default {
      selectTitle:'选择指标',
      selectTime:'选择年份',
      cityTitle:'选择城区',
+       dataSourceName:'11111111111',
+       dataSetName:'区县',
      items:[
        {
          name:'重心迁移分析',
          children:[
            {
-             name:'经济重心迁移'
+             name:'经济重心迁移',
+
            },
            {
              name:'人口重心迁移'

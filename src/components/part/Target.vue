@@ -10,24 +10,17 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">{{target.selectTitle}}</label>
           <div class="col-sm-10">
-            <select name="" class="form-control" v-model="zhibiao" @click="selectItem">
+            <select name="" class="form-control" v-model="zhibiao" @change="selectItem">
               <option v-for="i in target.items" :value="i">{{i.name}}</option>
             </select>
           </div>
-
-          <div class="col-sm-10" v-if="children&&children.length">
-            <select name="" class="form-control" v-model="zhibiao1">
-              <option v-for="i in children" :value="i.name">{{i.name}}</option>
-            </select>
-          </div>
-
         </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">选择年份</label>
+        <div class="form-group" v-show="boths.length">
+          <label class="col-sm-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
           <div class="col-sm-10" >
-
-            <select name="" class="form-control" v-model="year">
-              <option v-for="i in years" :value="i">{{i}}年</option>
+           <!--人口重心和经济重心-->
+            <select name="" class="form-control" v-model="both">
+              <option v-for="i in boths" :value="i">{{i.name}}</option>
             </select>
           </div>
         </div>
@@ -39,7 +32,7 @@
           <div class="col-sm-10">
             <CheckboxGroup v-model="checklist">
 
-              <Checkbox  v-for="(i,id) in citys" :key="id" :label="i.name"></Checkbox>
+              <Checkbox  v-for="(i,id) in citys" :key="id" :label="i">{{i.name}}}</Checkbox>
             </CheckboxGroup>
 
           </div>
@@ -93,7 +86,8 @@
             citys:this.target.citys,
             children:[],
             targetItem1:{},
-            years:func.getYears(),
+            both:{},
+            boths:[],
             yearlist:[],
             showYear:false,
             yearResult:'',
@@ -144,13 +138,17 @@
       methods:{
         selectItem(){
 
-          this.children=this.targetItem.children?this.targetItem.children:[]
+          this.boths=this.zhibiao.children?this.zhibiao.children:[]
         },
          close(){
             this.visible=false
           },
          ok(){
-            console.log(this.checklist)
+           let r=this.checklist.map(e=>e.id)
+           console.log(r)
+           // bus.$emit('queryBySql',{
+           //
+           // })
          },
          show(){
           this.visible=true
