@@ -145,7 +145,9 @@
           },
          ok(){
            let r=this.checklist.map(e=>e.id)
-           console.log(r)
+           if (this.both.name.indexOf('人口')>-1){
+               bus.$emit('manImportant',this.target.man)
+           }
            // bus.$emit('queryBySql',{
            //
            // })

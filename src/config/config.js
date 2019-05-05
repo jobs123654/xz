@@ -1,3 +1,4 @@
+import DataConfig from './DataConfig'
 export default {
   //标题
   title:'基于GIS的城市空间形态量算与分析系统',
@@ -171,6 +172,20 @@ export default {
      cityTitle:'选择城区',
        dataSourceName:'11111111111',
        dataSetName:'区县',
+     man:[
+       {
+         name:'1975',
+         num:DataConfig.getNum(1)
+       },
+       {
+         name:'2000',
+         num:DataConfig.getNum(2)
+       },
+       {
+         name:'2019',
+         num:DataConfig.getNum(3)
+       },
+     ],
      items:[
        {
          name:'重心迁移分析',

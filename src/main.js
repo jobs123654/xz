@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import func from './components/common/func'
 import config from './config/config'
+
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView);
