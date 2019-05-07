@@ -8,10 +8,11 @@
       <EditTool :class="$style.EditTool" :edit="editlist" v-show="showEdit" ref="edit"></EditTool>
       <Target :class="$style.Target" :target="target"></Target>
       <Theme :class="$style.Theme"  :theme="theme"></Theme>
-        <Style :class="$style.Style" ></Style>
+      <Style :class="$style.Style" ></Style>
       <AreaGrid :class="$style.grid"  :grid="grid"></AreaGrid>
       <Clear  :class="$style.Clear" ></Clear>
       <TabMap :class="$style.TabMap" :maps="maps" ></TabMap>
+    <Time :class="$style.Time" :option="timeline"></Time>
   </div>
 </template>
 
@@ -29,6 +30,7 @@
 
    import EditTool from '../part/EditTool'
    import Style from '../part/Style'
+   import Time from '../part/Time'
    import Center from '../user/Center'
    import db from '../config/db'
     export default {
@@ -38,7 +40,7 @@
           SecondMenu,
           Head,
           Map,
-        Center,Query,EditTool,Target,Theme,Clear,AreaGrid,TabMap,Style
+        Center,Query,EditTool,Target,Theme,Clear,AreaGrid,TabMap,Style,Time
         },
         data:function () {
          return{
@@ -51,7 +53,8 @@
              theme:config.theme,
              grid:config.areaGrid,
              maps:config.maps,
-             height:document.documentElement.clientHeight
+             height:document.documentElement.clientHeight,
+             timeline:config.timeLine
          }
         },
         computed:{
@@ -101,7 +104,7 @@
 
      /*pointer-events: none;*/
    }
-     .SecondMenu,.maptool,.center,.query,.EditTool,.Target,.Theme,.Clear,.grid,.TabMap,.Style{
+     .SecondMenu,.maptool,.center,.query,.EditTool,.Target,.Theme,.Clear,.grid,.TabMap,.Style,.Time{
          position: absolute;
          z-index: 999;
      }
@@ -149,7 +152,7 @@
          left:4%;
          top:10%
      }
-     .TabMap,.Style{
+     .TabMap,.Style,.Time{
          right:0.2%;
          top:9%
      }

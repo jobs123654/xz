@@ -216,82 +216,264 @@ export default {
          id:'1',
            name:'路南区',
            p:[118.1478147,39.6232840],
-          isChecked:false
+          isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'2',
          name:'路北区',
            p:[118.1945445,39.6628660],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'3',
 
          name:'丰南区',
            p:[118.08197767,39.5747863],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'4',
          name:'曹妃甸区',
            p:[118.4520646,39.2704535],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'5',
          name:'玉田县',
          p:[117.7352376,39.9031897],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'6',
          name:'遵化县',
          isChecked:false,
-           p:[117.960076,40.18786]
+           p:[117.960076,40.18786],
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'3',
          name:'迁西县',
          isChecked:false,
-           p:[118.3074850,40.13855983]
+           p:[118.3074850,40.13855983],
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'4',
          name:'迁安市',
            p:[118.69607083,39.99022625],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'5',
          name:'丰润区',
            p:[118.1604144,39.8309929],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'6',
          name:'开平区',
            p:[118.2564043,39.6704598],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
 
        {
          id:'5',
          name:'乐亭县',
            p:[118.9061012,39.4232715],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
        {
          id:'6',
          name:'滦州市',
            p:[118.6981226,39.7384647],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
 
        {
          id:'2',
          name:'古冶区',
            p:[118.4518248,39.7149235],
-         isChecked:false
+         isChecked:false,
+         man:[
+           {
+             name:'1975',
+             num:DataConfig.getNum(1)
+           },
+           {
+             name:'2000',
+             num:DataConfig.getNum(2)
+           },
+           {
+             name:'2019',
+             num:DataConfig.getNum(3)
+           },
+         ],
        },
 
      ],
@@ -469,5 +651,19 @@ export default {
             name:'1975年',
             url:'http://101.200.50.47:8090/iserver/services/map-00/rest/maps/唐山市1975'
         },
+    ],
+    timeLine:[
+      {
+        name:'1975',
+        isCheck:false
+      },
+      {
+        name:'2000',
+        isCheck:false
+      },
+      {
+        name:'2019',
+        isCheck:false
+      },
     ]
 }

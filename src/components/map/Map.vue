@@ -32,6 +32,7 @@
            bus.$on('drawPolygon',this.drawPolygon);
            bus.$on('commit',this.commit)
            bus.$on('addTheme',this.queryDataForTheme)
+           bus.$on('showImportantByMap',this.showImportantByMap)
 
            this.map.on('draw:created', this.drawFeature);
             this.map.on("mousemove",(e)=> {
@@ -643,6 +644,19 @@
       }
     },
 
+         //  显示人口、经济重心
+           showImportantByMap(o){
+               this.clear()
+               if (o){
+                 L.marker([o[1],o[0]],{
+                   icon:L.icon({
+                     iconUrl: '../../../static/img/icon.png',
+                     iconSize: [30, 30],
+                     iconAnchor: [30, 34],
+                   })
+                 }).addTo(this.map);
+               }
+           }
 
          },
 

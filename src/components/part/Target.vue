@@ -32,7 +32,7 @@
           <div class="col-sm-10">
             <CheckboxGroup v-model="checklist">
 
-              <Checkbox  v-for="(i,id) in citys" :key="id" :label="i">{{i.name}}</Checkbox>
+              <Checkbox  v-for="(i,id) in citys" :key="id" :label="i.isChecked">{{i.name}}</Checkbox>
             </CheckboxGroup>
 
           </div>
@@ -78,7 +78,7 @@
         },
         data(){
           return{
-            visible:true,
+            visible:false,
             targetItem:{},
             checklist:[],
              checkAll:false,
@@ -134,6 +134,11 @@
           bus.$on('xingtai',e=>{
             this.visible=!this.visible
           })
+
+           bus.$on('showImportant',e=>{
+           bus.$emit('showImportantByMap',this.getImportantRK(e))
+          })
+
       },
       methods:{
         selectItem(){
@@ -145,57 +150,36 @@
           },
          ok(){
            let r=this.checklist.map(e=>e.id)
-           if (this.both.name.indexOf('人口')>-1){
+           if (this.both.name.indexOf('人口')>-1||this.both.name.indexOf('经济')>-1){
                let param=[]
-               this.target.citys.forEach(e=>{
-                 param.push({
-                   coor:e.p,
-                   num:this.target.man
-                 });
-               });
-               /*
-               * e{
-               *  coor:[],
-               *  num:[]
-               * }
-               * i year
-               * */
-               const getCoorX= (e,i)=>{
-                 if (e)
-                 return  e.coor[0]*e.num[i].num
-               };
-               const getCoorY=  (e,i)=>{
-                 if (e)
-                 return  e.coor[1]*e.num[i].num
-               };
-
-             //i 年的结果[人口、经济]
-             const getResult= index=>{
-
-               let x=0,y=0,n=0;
-
-               param.map(e=>{
-                   x+=getCoorX(e,index)
-                   n+=parseFloat(e.num[index].num)
-                   y+=getCoorY(e,index)
-               })
-                return [x/n,y/n]
-             };
-
-             console.log(getResult(0))
-
-
-              // let result1=param.reduce((a,b)=>{
-              //   let x=0,y=0;
-              //    a.num.forEach((item,i)=>{
-              //       x+=
-              //    })
-              // })
-
-               bus.$emit('manImportant',this.target.man)
+             bus.$emit('showTime')
            }
 
          },
+
+         getImportantJJ(){
+           let param=[]
+           this.target.citys.forEach(e=>{
+             param.push({
+               coor:e.p,
+               num:this.target.man
+             });
+           });
+           return func.getimportant(param,i)
+         },
+          getImportantRK(i){
+           let param=[]
+            this.target.citys.forEach(e=>{
+              param.push({
+                coor:e.p,
+                num:e.man
+              });
+            });
+           let result=func.getimportant(param,i)
+           bus.$emit('receptImportant',result)
+            return result
+          },
+
          show(){
           this.visible=true
          },
@@ -207,7 +191,7 @@
                this.yearlist.map(e=>{
                   a.push(e)
                })
-              this.yearResult=a.join(',')
+            this.yearResult=a.join(',')
           }
         }
 
