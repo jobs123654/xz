@@ -186,6 +186,7 @@ export default {
          num:DataConfig.getNum(3)
        },
      ],
+
      items:[
        {
          name:'重心迁移分析',
@@ -213,9 +214,9 @@ export default {
      citys:[
        {
          id:'1',
-         name:'路南区',
+           name:'路南区',
            p:[118.1478147,39.6232840],
-         isChecked:false
+          isChecked:false
        },
        {
          id:'2',
@@ -239,7 +240,7 @@ export default {
        {
          id:'5',
          name:'玉田县',
-           p:[117.7352376,39.9031897],
+         p:[117.7352376,39.9031897],
          isChecked:false
        },
        {
